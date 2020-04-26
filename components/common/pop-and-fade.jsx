@@ -5,7 +5,6 @@ export default function PopAndFadeView(props) {
   const [fadeAnim] = useState(new Animated.Value(0));
 
   useEffect(() => {
-    console.log('started animation!');
     Animated.sequence([
       Animated.timing(fadeAnim, {
         toValue: 1

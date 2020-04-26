@@ -1,10 +1,12 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useContext } from 'react';
 import { View, Switch, ActivityIndicator, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import TextDisplay from '../common/text-display';
 import PopAndFadeView from '../common/pop-and-fade';
+import { ThemeContext } from '../../lib/utils';
 
 export default function DeviceDisplay(props) {
+  const theme = useContext(ThemeContext);
   const [executing, setExecuting] = useState(false);
   const [success, setSuccess] = useState(null);
 
@@ -24,7 +26,7 @@ export default function DeviceDisplay(props) {
       {executing && 
         <ActivityIndicator
           size="small"
-          color="blue"
+          color={ theme.LINK_COLOR }
           style={{
             marginTop: 5,
             marginRight: 10
@@ -35,14 +37,23 @@ export default function DeviceDisplay(props) {
           <Ionicons
             name={success ? 'md-checkmark-circle-outline' : 'md-alert'}
             size={25}
-            color={success? 'green': 'red'}
+            color={success? theme.SUCCESS_COLOR: theme.ALERT_COLOR}
             style={{
               marginTop: 5,
               marginRight: 10
             }} />
         </PopAndFadeView>
       }
-      {(!executing && success == null ) && <Switch value={props.state === '100'} onValueChange={switchState} /> }
+      {(!executing && success == null ) &&
+        <Switch
+          value={props.state === '100'}
+          onValueChange={switchState}
+          style={{
+            transform: [
+              {scaleX: 1.2},
+              {scaleY: 1.2}
+            ]
+          }} /> }
     </View>
   );
 };

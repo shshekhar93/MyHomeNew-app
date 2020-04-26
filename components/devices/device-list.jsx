@@ -1,8 +1,10 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 import _pick from 'lodash/pick';
 import BasePageView from '../common/base-page-view';
 import DeviceGroup from './device-group';
 import { getDevices, setDevState } from '../../lib/api';
+import { RefreshControl } from 'react-native';
+import { ThemeContext } from '../../lib/utils';
 
 const COMMON_PROP_NAMES = [ 'name', 'isActive', 'room' ];
 
@@ -23,7 +25,7 @@ async function getAllDevices(comparator) {
       ...allRooms, 
       [roomName]: [ ...thisRoom, ...leadsInThisDev ]
     };
-  }, []);
+  }, {});
 
   return Object.keys(devsMappedToRoom).sort(comparator).map(room => ({
     name: room,
@@ -31,12 +33,23 @@ async function getAllDevices(comparator) {
   }), []); 
 }
 
-export default function DeviceList(props) {
+export default function DeviceList() {
+  const theme = useContext(ThemeContext);
   const [devGroups, setDevGroups] = useState([]);
+  const [refreshing, setRefreshing] = useState();
+
+  const refresh = useCallback(async () => {
+    setDevGroups(await getAllDevices());
+  }, []);
+
   useEffect(() => {
-    (async () => {
-      setDevGroups(await getAllDevices());
-    })();
+    refresh();
+  }, []);
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await refresh();
+    setRefreshing(false);
   }, []);
 
   const switchState = useCallback((room, devName, devId, isOn) => {
@@ -62,7 +75,15 @@ export default function DeviceList(props) {
   }, []);
 
   return (
-    <BasePageView style={{ flex: 1 }}>
+    <BasePageView
+      style={{ flex: 1 }}
+      refreshControl={ 
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          colors={[theme.COLOR5]} />
+      }
+    >
       {
         devGroups.map(devGrp => <DeviceGroup key={devGrp.name} switchState={switchState} {...devGrp} />)
       }

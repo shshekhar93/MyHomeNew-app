@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Text } from 'react-native';
 import _omit from 'lodash/omit';
+import { ThemeContext } from '../../lib/utils';
 
 export default function TextDisplay(props) {
-  const {style = {}, size, children = ''} = props;
+  const theme = useContext(ThemeContext);
+  const {style = {}, size} = props;
   const restProps = _omit(props, ['style', 'size', 'children']);
   return (
     <Text
       style={{
         fontSize: fontSize(size),
         marginBottom: 8,
+        color: theme.TEXT_COLOR,
+        fontWeight: '300',
         ...style
       }}
       {...restProps}
