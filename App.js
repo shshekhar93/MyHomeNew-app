@@ -4,15 +4,15 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { AppLoading } from 'expo';
+import { StatusBar } from 'react-native';
+import { MenuProvider } from 'react-native-popup-menu';
 import { hasSettingsSaved } from './lib/settings';
 import ConnectServer from './components/connect-server';
 import ClientCredsScanner from './components/client-creds-scanner';
 import getAccessToken from './lib/oAuth';
 import DeviceList from './components/devices/device-list';
 import { DARK_MODE } from './styles/colors';
-import { StatusBar } from 'react-native';
 import { ThemeContext, getMenuFromTheme } from './lib/utils';
-import { MenuProvider } from 'react-native-popup-menu';
 
 const Stack = createStackNavigator();
 
@@ -48,7 +48,7 @@ export default function App() {
                 backgroundColor: theme.HEADER_BACKGROUND,
               },
               headerTintColor: theme.TEXT_COLOR,
-              headerRight: getMenu
+              headerRight: getMenu,
             }}
           >
             {
