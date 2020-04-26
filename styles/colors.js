@@ -1,4 +1,3 @@
-
 export const COLOR_D1 = '#96A3AD';
 export const COLOR_D2 = '#6B7780';
 export const COLOR_D3 = '#424E57';
@@ -14,7 +13,6 @@ export const COLOR_BLACK = '#000000';
 export const BACKGROUND_LIGHT = 'dedecd';
 export const BACKGROUND_CONTROLS = COLOR_WHITE;
 export const BORDER_CONTROLS = '#d4d4d4';
-
 
 export const DARK_MODE = {
   COLOR1: COLOR_D1,
@@ -32,5 +30,5 @@ export const DARK_MODE = {
   HEADER_BACKGROUND: COLOR_D4,
   LINK_COLOR: '#91ADD4',
   SUCCESS_COLOR: '#2FDF75',
-  ALERT_COLOR: '#FF4961'
+  ALERT_COLOR: '#FF4961',
 };

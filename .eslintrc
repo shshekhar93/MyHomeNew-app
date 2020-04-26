@@ -26,7 +26,8 @@
       }
     ],
     "func-names": "off",
-    "prefer-rest-params": "off"
+    "prefer-rest-params": "off",
+    "react/jsx-props-no-spreading": "off"
   },
   "plugins": [
     "prettier"

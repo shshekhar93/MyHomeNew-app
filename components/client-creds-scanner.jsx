@@ -5,65 +5,63 @@ import * as Permissions from 'expo-permissions';
 import TextDisplay from './common/text-display';
 import { setServerAddress, setClientId, setClientSecret } from '../lib/settings';
 
-export default function ClientCredsScanner(props) {
+export default function ClientCredsScanner() {
   const [err, setErr] = useState(null);
   useEffect(() => {
     Permissions.getAsync(Permissions.CAMERA)
-      .then(perm => {
-        if(perm.granted) {
+      .then((perm) => {
+        if (perm.granted) {
           // we already have permission.
-          return;
+          return null;
         }
 
-        if(perm.canAskAgain) {
+        if (perm.canAskAgain) {
           return Permissions.askAsync(Permissions.CAMERA);
         }
         throw new Error('NO_CAM_PERM');
       })
-      .then(perm => {
-        if(perm && !perm.granted) {
+      .then((perm) => {
+        if (perm && !perm.granted) {
           throw new Error('NO_CAM_PERM');
         }
       })
       .catch(() => setErr('Please grant camera permission to scan.'));
   }, []);
 
-  const onCredsScanned = useCallback(({data}) => {
+  const onCredsScanned = useCallback(({ data }) => {
     const dataParts = (data || '').split(':');
-    console.log(dataParts);
     const clientId = dataParts.shift();
     const clientSecret = dataParts.shift();
     const hostname = dataParts.join(':');
 
-    if(!clientId || !clientSecret || !hostname) {
-      if(Platform.OS === 'android') {
+    if (!clientId || !clientSecret || !hostname) {
+      if (Platform.OS === 'android') {
         return ToastAndroid.show('Invalid QR Code', ToastAndroid.SHORT);
       }
-       return setErr('Invalid QR scanned!');
+      return setErr('Invalid QR scanned!');
     }
 
-    (async () => {
+    return (async () => {
       await Promise.all[
-        setServerAddress(hostname),
-        setClientId(clientId),
-        setClientSecret(clientSecret)
+        (setServerAddress(hostname), setClientId(clientId), setClientSecret(clientSecret))
       ];
-      console.log('Saved!!!', clientId, clientSecret, hostname);
     })();
   });
   return (
-    <View style={{
-      flex: 1,
-      flexDirection: 'column',
-      justifyContent: 'flex-end',
-      padding: 12
-    }}>
-      {err && 
-        <TextDisplay size="medium" style={{ color: 'red', marginTop: 16 }}>{err}</TextDisplay> 
-      }
-      <BarCodeScanner
-        onBarCodeScanned={ onCredsScanned }
-        style={{ flex: 1 }} />
+    <View
+      style={{
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        padding: 12,
+      }}
+    >
+      {err && (
+        <TextDisplay size="medium" style={{ color: 'red', marginTop: 16 }}>
+          {err}
+        </TextDisplay>
+      )}
+      <BarCodeScanner onBarCodeScanned={onCredsScanned} style={{ flex: 1 }} />
     </View>
   );
-};
+}
