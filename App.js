@@ -13,6 +13,8 @@ import getAccessToken from './lib/oAuth';
 import DeviceList from './components/devices/device-list';
 import { DARK_MODE } from './styles/colors';
 import { ThemeContext, getMenuFromTheme } from './lib/utils';
+import { navigatorRef } from './lib/navigation';
+import SettingsPage from './components/settings-page';
 
 const Stack = createStackNavigator();
 
@@ -47,7 +49,7 @@ export default function App() {
 
   return (
     <MenuProvider>
-      <NavigationContainer>
+      <NavigationContainer ref={navigatorRef}>
         <StatusBar backgroundColor={theme.HEADER_BACKGROUND} />
         <ThemeContext.Provider value={theme}>
           <Stack.Navigator
@@ -88,6 +90,13 @@ export default function App() {
                   component={DeviceList}
                   options={{
                     title: 'Devices',
+                  }}
+                />
+                <Stack.Screen
+                  name="Settings"
+                  component={SettingsPage}
+                  options={{
+                    title: 'Settings',
                   }}
                 />
               </>
