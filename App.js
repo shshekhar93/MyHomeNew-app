@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { AppLoading } from 'expo';
 import { StatusBar } from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
-import { hasSettingsSaved } from './lib/settings';
+import { hasSettingsSaved, addSettingsListener, removeSettingsListener } from './lib/settings';
 import ConnectServer from './components/connect-server';
 import ClientCredsScanner from './components/client-creds-scanner';
 import getAccessToken from './lib/oAuth';
@@ -20,7 +20,14 @@ export default function App() {
   const [theme, setTheme] = useState(DARK_MODE);
   const [hasSettings, setHasSettings] = useState(null);
   const [isLoggedIn, setLoggedIn] = useState(false);
+  const [refreshTs, setRefreshTs] = useState(() => Date.now());
+
   useEffect(() => {
+    const onSettingsChange = () => {
+      setRefreshTs(Date.now());
+    };
+    addSettingsListener(onSettingsChange);
+
     (async () => {
       const settingsSaved = await hasSettingsSaved();
       const accessToken = settingsSaved && (await getAccessToken());
@@ -28,7 +35,9 @@ export default function App() {
       setLoggedIn(!!accessToken);
       setTheme(DARK_MODE);
     })();
-  }, []);
+
+    return () => removeSettingsListener(onSettingsChange);
+  }, [refreshTs]);
 
   const getMenu = useCallback(() => getMenuFromTheme(theme), []);
 

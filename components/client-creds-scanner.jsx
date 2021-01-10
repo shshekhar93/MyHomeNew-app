@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { View, ToastAndroid, Platform } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import * as Permissions from 'expo-permissions';
@@ -7,6 +7,8 @@ import { setServerAddress, setClientId, setClientSecret } from '../lib/settings'
 
 export default function ClientCredsScanner() {
   const [err, setErr] = useState(null);
+  const loggingIn = useRef(false);
+
   useEffect(() => {
     Permissions.getAsync(Permissions.CAMERA)
       .then((perm) => {
@@ -29,6 +31,10 @@ export default function ClientCredsScanner() {
   }, []);
 
   const onCredsScanned = useCallback(({ data }) => {
+    if (loggingIn.current) {
+      return;
+    }
+
     const dataParts = (data || '').split(':');
     const clientId = dataParts.shift();
     const clientSecret = dataParts.shift();
@@ -36,17 +42,26 @@ export default function ClientCredsScanner() {
 
     if (!clientId || !clientSecret || !hostname) {
       if (Platform.OS === 'android') {
-        return ToastAndroid.show('Invalid QR Code', ToastAndroid.SHORT);
+        ToastAndroid.show('Invalid QR Code', ToastAndroid.SHORT);
+        return;
       }
-      return setErr('Invalid QR scanned!');
+      setErr('Invalid QR scanned!');
+      return;
     }
 
-    return (async () => {
-      await Promise.all[
-        (setServerAddress(hostname), setClientId(clientId), setClientSecret(clientSecret))
-      ];
-    })();
-  });
+    ToastAndroid.show('Scan complete. Logging in..', ToastAndroid.SHORT);
+    loggingIn.current = true;
+    Promise.all([setServerAddress(hostname), setClientId(clientId), setClientSecret(clientSecret)])
+      .then(() => {
+        ToastAndroid.show('Logged in successfully', ToastAndroid.SHORT);
+        loggingIn.current = false;
+      })
+      .catch((e) => {
+        console.error(e.stack || e);
+        loggingIn.current = false;
+      });
+  }, []);
+
   return (
     <View
       style={{
