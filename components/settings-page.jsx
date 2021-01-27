@@ -1,10 +1,12 @@
 import React, { useContext, useMemo } from 'react';
+import Constants from 'expo-constants';
 import SettingsList from 'react-native-settings-list';
 import { Switch } from 'react-native-gesture-handler';
 import BasePageView from './common/base-page-view';
 import { ThemeContext } from '../lib/utils';
 import logout from './logout';
 import { DARK_MODE } from '../styles/colors';
+import TextDisplay from './common/text-display';
 
 function SettingsPage() {
   const theme = useContext(ThemeContext);
@@ -40,6 +42,21 @@ function SettingsPage() {
                 alignSelf: 'center',
               }}
             />
+          }
+        />
+        <SettingsList.Item
+          {...commonItemProps}
+          title="App version"
+          rightSideContent={
+            <TextDisplay
+              style={{
+                marginTop: 7,
+                marginRight: 15,
+                alignSelf: 'center',
+              }}
+            >
+              {Constants.manifest.version}
+            </TextDisplay>
           }
         />
         <SettingsList.Item {...commonItemProps} title="Logout" onPress={logout} />

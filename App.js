@@ -15,6 +15,7 @@ import { DARK_MODE } from './styles/colors';
 import { ThemeContext, getMenuFromTheme } from './lib/utils';
 import { navigatorRef } from './lib/navigation';
 import SettingsPage from './components/settings-page';
+import AppUpdate from './components/update';
 
 const Stack = createStackNavigator();
 
@@ -22,6 +23,7 @@ export default function App() {
   const [theme, setTheme] = useState(DARK_MODE);
   const [hasSettings, setHasSettings] = useState(null);
   const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isUpdating, setUpdating] = useState(false);
   const [refreshTs, setRefreshTs] = useState(() => Date.now());
 
   useEffect(() => {
@@ -51,58 +53,61 @@ export default function App() {
     <MenuProvider>
       <NavigationContainer ref={navigatorRef}>
         <StatusBar backgroundColor={theme.HEADER_BACKGROUND} />
-        <ThemeContext.Provider value={theme}>
-          <Stack.Navigator
-            initialRouteName="Home"
-            screenOptions={{
-              headerStyle: {
-                backgroundColor: theme.HEADER_BACKGROUND,
-              },
-              headerTintColor: theme.TEXT_COLOR,
-              headerRight: getMenu,
-            }}
-          >
-            {
-              /* Login screens */
-              (hasSettings === false || isLoggedIn === false) && (
+        <AppUpdate isUpdating={isUpdating} setUpdating={setUpdating} />
+        {!isUpdating && (
+          <ThemeContext.Provider value={theme}>
+            <Stack.Navigator
+              initialRouteName="Home"
+              screenOptions={{
+                headerStyle: {
+                  backgroundColor: theme.HEADER_BACKGROUND,
+                },
+                headerTintColor: theme.TEXT_COLOR,
+                headerRight: getMenu,
+              }}
+            >
+              {
+                /* Login screens */
+                (hasSettings === false || isLoggedIn === false) && (
+                  <>
+                    <Stack.Screen
+                      name="Login"
+                      component={ConnectServer}
+                      options={{
+                        title: 'Login',
+                      }}
+                    />
+                    <Stack.Screen
+                      name="Scanner"
+                      component={ClientCredsScanner}
+                      options={{
+                        title: 'Scan QR',
+                      }}
+                    />
+                  </>
+                )
+              }
+              {hasSettings && isLoggedIn && (
                 <>
                   <Stack.Screen
-                    name="Login"
-                    component={ConnectServer}
+                    name="Devices"
+                    component={DeviceList}
                     options={{
-                      title: 'Login',
+                      title: 'Devices',
                     }}
                   />
                   <Stack.Screen
-                    name="Scanner"
-                    component={ClientCredsScanner}
+                    name="Settings"
+                    component={SettingsPage}
                     options={{
-                      title: 'Scan QR',
+                      title: 'Settings',
                     }}
                   />
                 </>
-              )
-            }
-            {hasSettings && isLoggedIn && (
-              <>
-                <Stack.Screen
-                  name="Devices"
-                  component={DeviceList}
-                  options={{
-                    title: 'Devices',
-                  }}
-                />
-                <Stack.Screen
-                  name="Settings"
-                  component={SettingsPage}
-                  options={{
-                    title: 'Settings',
-                  }}
-                />
-              </>
-            )}
-          </Stack.Navigator>
-        </ThemeContext.Provider>
+              )}
+            </Stack.Navigator>
+          </ThemeContext.Provider>
+        )}
       </NavigationContainer>
     </MenuProvider>
   );
