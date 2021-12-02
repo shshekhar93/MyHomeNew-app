@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, ActivityIndicator, ToastAndroid, Linking } from 'react-native';
+import { Alert, ActivityIndicator, Linking } from 'react-native';
 import Constants from 'expo-constants';
 import { gt } from 'semver';
 import BasePageView from './common/base-page-view';
 import TextDisplay from './common/text-display';
 import { getLatestAppManifest } from '../lib/api';
 import { getServerAddress } from '../lib/settings';
+import useToastHelper from '../lib/use-toast-helper';
 
 function AppUpdate({ isUpdating, setUpdating }) {
   const [hasUpdate, setHasUpdate] = useState(false);
 
   const [downloadUrl, setDownloadUrl] = useState(null);
+  const Toast = useToastHelper();
 
   useEffect(() => {
     (async () => {
@@ -24,8 +26,8 @@ function AppUpdate({ isUpdating, setUpdating }) {
           setDownloadUrl(manifest.url);
         }
       } catch (e) {
-        console.error(e.stack);
-        ToastAndroid.show('Checking for updates failed.', ToastAndroid.SHORT);
+        // console.error(e.stack);
+        Toast.show('Checking for updates failed.', Toast.SHORT);
       }
     })();
   }, []);
@@ -69,9 +71,9 @@ function AppUpdate({ isUpdating, setUpdating }) {
 
         return Linking.openURL(`${server}${downloadUrl}`);
       })
-      .catch((err) => {
-        console.error('Could not download update', err.message);
-        ToastAndroid.show('Download update failed..', ToastAndroid.SHORT);
+      .catch((/* err */) => {
+        // console.error('Could not download update', err.message);
+        Toast.show('Download update failed..', Toast.SHORT);
       })
       .finally(() => {
         setUpdating(false);

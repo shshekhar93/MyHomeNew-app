@@ -1,21 +1,7 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
-import { Text, ViewPropTypes } from 'react-native';
+import { Text } from 'react-native';
 import _omit from 'lodash/omit';
-import { ThemeContext } from '../../lib/utils';
-
-const BASE_SIZES = {
-  small: 14,
-  normal: 16,
-  medium: 18,
-  large: 22,
-  larger: 24,
-  huge: 26,
-};
-
-function fontSize(sizeEnum) {
-  return BASE_SIZES[sizeEnum] || BASE_SIZES.normal;
-}
+import { fontSize, ThemeContext } from '../../lib/utils';
 
 export default function TextDisplay(props) {
   const theme = useContext(ThemeContext);
@@ -40,10 +26,4 @@ export default function TextDisplay(props) {
 TextDisplay.defaultProps = {
   style: {},
   size: 'normal',
-};
-
-TextDisplay.propTypes = {
-  style: ViewPropTypes.style,
-  size: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]).isRequired,
 };

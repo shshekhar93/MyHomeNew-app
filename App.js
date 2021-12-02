@@ -2,8 +2,9 @@ import 'react-native-gesture-handler';
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { AppLoading } from 'expo';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ToastProvider } from 'react-native-toast-notifications';
+import AppLoading from 'expo-app-loading';
 import { StatusBar } from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
 import { hasSettingsSaved, addSettingsListener, removeSettingsListener } from './lib/settings';
@@ -17,7 +18,7 @@ import { navigatorRef } from './lib/navigation';
 import SettingsPage from './components/settings-page';
 import AppUpdate from './components/update';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [theme, setTheme] = useState(DARK_MODE);
@@ -50,65 +51,67 @@ export default function App() {
   }
 
   return (
-    <MenuProvider>
-      <NavigationContainer ref={navigatorRef}>
-        <StatusBar backgroundColor={theme.HEADER_BACKGROUND} />
-        <AppUpdate isUpdating={isUpdating} setUpdating={setUpdating} />
-        {!isUpdating && (
-          <ThemeContext.Provider value={theme}>
-            <Stack.Navigator
-              initialRouteName="Home"
-              screenOptions={{
-                headerStyle: {
-                  backgroundColor: theme.HEADER_BACKGROUND,
-                },
-                headerTintColor: theme.TEXT_COLOR,
-                headerRight: getMenu,
-              }}
-            >
-              {
-                /* Login screens */
-                (hasSettings === false || isLoggedIn === false) && (
+    <ToastProvider>
+      <MenuProvider>
+        <NavigationContainer ref={navigatorRef}>
+          <StatusBar backgroundColor={theme.HEADER_BACKGROUND} />
+          <AppUpdate isUpdating={isUpdating} setUpdating={setUpdating} />
+          {!isUpdating && (
+            <ThemeContext.Provider value={theme}>
+              <Stack.Navigator
+                initialRouteName="Home"
+                screenOptions={{
+                  headerStyle: {
+                    backgroundColor: theme.HEADER_BACKGROUND,
+                  },
+                  headerTintColor: theme.TEXT_COLOR,
+                  headerRight: getMenu,
+                }}
+              >
+                {
+                  /* Login screens */
+                  (hasSettings === false || isLoggedIn === false) && (
+                    <>
+                      <Stack.Screen
+                        name="Login"
+                        component={ConnectServer}
+                        options={{
+                          title: 'Login',
+                        }}
+                      />
+                      <Stack.Screen
+                        name="Scanner"
+                        component={ClientCredsScanner}
+                        options={{
+                          title: 'Scan QR',
+                        }}
+                      />
+                    </>
+                  )
+                }
+                {hasSettings && isLoggedIn && (
                   <>
                     <Stack.Screen
-                      name="Login"
-                      component={ConnectServer}
+                      name="Devices"
+                      component={DeviceList}
                       options={{
-                        title: 'Login',
+                        title: 'Devices',
                       }}
                     />
                     <Stack.Screen
-                      name="Scanner"
-                      component={ClientCredsScanner}
+                      name="Settings"
+                      component={SettingsPage}
                       options={{
-                        title: 'Scan QR',
+                        title: 'Settings',
                       }}
                     />
                   </>
-                )
-              }
-              {hasSettings && isLoggedIn && (
-                <>
-                  <Stack.Screen
-                    name="Devices"
-                    component={DeviceList}
-                    options={{
-                      title: 'Devices',
-                    }}
-                  />
-                  <Stack.Screen
-                    name="Settings"
-                    component={SettingsPage}
-                    options={{
-                      title: 'Settings',
-                    }}
-                  />
-                </>
-              )}
-            </Stack.Navigator>
-          </ThemeContext.Provider>
-        )}
-      </NavigationContainer>
-    </MenuProvider>
+                )}
+              </Stack.Navigator>
+            </ThemeContext.Provider>
+          )}
+        </NavigationContainer>
+      </MenuProvider>
+    </ToastProvider>
   );
 }

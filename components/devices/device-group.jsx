@@ -53,7 +53,7 @@ function DeviceGroupHeader({ title, isOpen, onPress }) {
         >
           {title}
         </TextDisplay>
-        <Ionicons name={`ios-arrow-${isOpen ? 'up' : 'down'}`} size={32} color={theme.TEXT_COLOR} />
+        <Ionicons name={`chevron-${isOpen ? 'up' : 'down'}`} size={32} color={theme.TEXT_COLOR} />
       </View>
     </TouchableWithoutFeedback>
   );
