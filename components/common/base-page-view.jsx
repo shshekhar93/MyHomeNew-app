@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
-import { ScrollView, ViewPropTypes } from 'react-native';
+import { ScrollView } from 'react-native';
 import _omit from 'lodash/omit';
 import { ThemeContext } from '../../lib/utils';
 
@@ -29,9 +28,4 @@ export default function BasePageView(props) {
 
 BasePageView.defaultProps = {
   style: {},
-};
-
-BasePageView.propTypes = {
-  style: ViewPropTypes.style,
-  children: PropTypes.node.isRequired,
 };

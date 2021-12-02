@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Animated, ViewPropTypes } from 'react-native';
+import { Animated } from 'react-native';
 import { noop } from '../../lib/utils';
 
 export default function PopAndFadeView({ style, children, onEnd }) {
@@ -24,10 +23,4 @@ export default function PopAndFadeView({ style, children, onEnd }) {
 PopAndFadeView.defaultProps = {
   style: {},
   onEnd: noop,
-};
-
-PopAndFadeView.propTypes = {
-  style: ViewPropTypes.style,
-  children: PropTypes.node.isRequired,
-  onEnd: PropTypes.func,
 };

@@ -1,7 +1,23 @@
-import { Alert } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import { setServerAddress, setClientId, setClientSecret } from '../lib/settings';
 
 function logout() {
+  const clearSettings = async () => {
+    try {
+      await Promise.all([setServerAddress(''), setClientId(''), setClientSecret('')]);
+    } catch (e) {
+      // console.error(e.stack || e);
+    }
+  };
+
+  if (Platform.OS === 'web') {
+    /* eslint-disable-next-line */
+    const confirmed = window.confirm('Do you really want to logout?');
+    if (confirmed) {
+      clearSettings();
+    }
+  }
+
   Alert.alert('Logout?', 'Do you want to logout from your account on this phone?', [
     {
       text: 'Cancel',
@@ -10,13 +26,7 @@ function logout() {
     },
     {
       text: 'Logout',
-      onPress: async () => {
-        try {
-          await Promise.all([setServerAddress(''), setClientId(''), setClientSecret('')]);
-        } catch (e) {
-          console.error(e.stack || e);
-        }
-      },
+      onPress: clearSettings,
       style: 'destructive',
     },
   ]);
