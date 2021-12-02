@@ -13,7 +13,7 @@ import ClientCredsScanner from './components/client-creds-scanner';
 import getAccessToken from './lib/oAuth';
 import DeviceList from './components/devices/device-list';
 import { DARK_MODE } from './styles/colors';
-import { ThemeContext, getMenuFromTheme } from './lib/utils';
+import { ThemeContext, getMenuFromTheme, fixMinHeightStyleOnWeb } from './lib/utils';
 import { navigatorRef } from './lib/navigation';
 import SettingsPage from './components/settings-page';
 import AppUpdate from './components/update';
@@ -25,7 +25,7 @@ export default function App() {
   const [hasSettings, setHasSettings] = useState(null);
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isUpdating, setUpdating] = useState(false);
-  const [refreshTs, setRefreshTs] = useState(() => Date.now());
+  const [refreshTs, setRefreshTs] = useState(0);
 
   useEffect(() => {
     const onSettingsChange = () => {
@@ -43,6 +43,10 @@ export default function App() {
 
     return () => removeSettingsListener(onSettingsChange);
   }, [refreshTs]);
+
+  useEffect(() => {
+    fixMinHeightStyleOnWeb();
+  });
 
   const getMenu = useCallback(() => getMenuFromTheme(theme), []);
 
