@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ToastProvider } from 'react-native-toast-notifications';
-import AppLoading from 'expo-app-loading';
+import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
 import { hasSettingsSaved, addSettingsListener, removeSettingsListener } from './lib/settings';
@@ -18,6 +18,7 @@ import { navigatorRef } from './lib/navigation';
 import SettingsPage from './components/settings-page';
 import AppUpdate from './components/update';
 
+SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -39,6 +40,7 @@ export default function App() {
       setHasSettings(settingsSaved);
       setLoggedIn(!!accessToken);
       setTheme(DARK_MODE);
+      await SplashScreen.hideAsync();
     })();
 
     return () => removeSettingsListener(onSettingsChange);
@@ -51,7 +53,7 @@ export default function App() {
   const getMenu = useCallback(() => getMenuFromTheme(theme), []);
 
   if (hasSettings === null) {
-    return <AppLoading />;
+    return null;
   }
 
   return (
