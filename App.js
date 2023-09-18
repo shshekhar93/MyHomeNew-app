@@ -4,8 +4,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ToastProvider } from 'react-native-toast-notifications';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'react-native';
+import * as ExpoSplashScreen from 'expo-splash-screen';
+import { Platform, StatusBar } from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
 import { hasSettingsSaved, addSettingsListener, removeSettingsListener } from './lib/settings';
 import ConnectServer from './components/connect-server';
@@ -17,8 +17,9 @@ import { ThemeContext, getMenuFromTheme, fixMinHeightStyleOnWeb } from './lib/ut
 import { navigatorRef } from './lib/navigation';
 import SettingsPage from './components/settings-page';
 import AppUpdate from './components/update';
+import SplashScreen from './components/splash-screen';
 
-SplashScreen.preventAutoHideAsync();
+ExpoSplashScreen.preventAutoHideAsync();
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -40,7 +41,7 @@ export default function App() {
       setHasSettings(settingsSaved);
       setLoggedIn(!!accessToken);
       setTheme(DARK_MODE);
-      await SplashScreen.hideAsync();
+      await ExpoSplashScreen.hideAsync();
     })();
 
     return () => removeSettingsListener(onSettingsChange);
@@ -53,6 +54,9 @@ export default function App() {
   const getMenu = useCallback(() => getMenuFromTheme(theme), [theme]);
 
   if (hasSettings === null) {
+    if (Platform.OS === 'web') {
+      return <SplashScreen />;
+    }
     return null;
   }
 

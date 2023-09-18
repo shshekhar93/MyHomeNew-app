@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" stroke="currentColor" stroke-width="25" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+  <path style="fill: transparent;" d="M 220 245 A50,50 0 1 0 280,245 M 250 270 L 250 225"/>
+  <path style="fill: transparent;" d="M250,400 L 400 400 A50,50 0 0 0 400,300 C500,300 400,150 350,200 A105,105 0 0 0 250,125"/>
+  <path style="fill: transparent;" d="M250,400 L 400 400 A50,50 0 0 0 400,300 C500,300 400,150 350,200 A105,105 0 0 0 250,125" transform="scale(-1,1) translate(-500,0)"/>
+</svg>
