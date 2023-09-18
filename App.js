@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import { ToastProvider } from 'react-native-toast-notifications';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'react-native';
@@ -19,7 +19,7 @@ import SettingsPage from './components/settings-page';
 import AppUpdate from './components/update';
 
 SplashScreen.preventAutoHideAsync();
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 export default function App() {
   const [theme, setTheme] = useState(DARK_MODE);
@@ -50,7 +50,7 @@ export default function App() {
     fixMinHeightStyleOnWeb();
   });
 
-  const getMenu = useCallback(() => getMenuFromTheme(theme), []);
+  const getMenu = useCallback(() => getMenuFromTheme(theme), [theme]);
 
   if (hasSettings === null) {
     return null;
