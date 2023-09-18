@@ -12,6 +12,7 @@
     "@react-native-async-storage/async-storage": "~1.15.0",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
+    "create-react-class": "^15.7.0",
     "expo": "^43.0.0",
     "expo-app-loading": "~1.2.1",
     "expo-barcode-scanner": "^11.1.2",
@@ -38,6 +39,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
+    "babel-eslint": "^10.1.0",
     "babel-preset-expo": "8.5.1",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
