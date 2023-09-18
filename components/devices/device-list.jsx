@@ -92,7 +92,6 @@ export default function DeviceList() {
 
   return (
     <BasePageView
-      style={{ flex: 1 }}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[theme.COLOR5]} />
       }
