@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from 'react';
 import Constants from 'expo-constants';
-import SettingsList from 'react-native-settings-list';
 import { Switch } from 'react-native-gesture-handler';
+import SettingsList from '../lib/react-native-settings-list';
 import BasePageView from './common/base-page-view';
 import { ThemeContext } from '../lib/utils';
 import logout from './logout';

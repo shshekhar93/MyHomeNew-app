@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useContext } from 'react';
 import _pick from 'lodash/pick';
-import { RefreshControl } from 'react-native';
+import { AppState, RefreshControl } from 'react-native';
 import BasePageView from '../common/base-page-view';
 import DeviceGroup from './device-group';
 import { getDevices, setDevState } from '../../lib/api';
@@ -41,20 +41,26 @@ async function getAllDevices(comparator) {
 export default function DeviceList() {
   const theme = useContext(ThemeContext);
   const [devGroups, setDevGroups] = useState([]);
-  const [refreshing, setRefreshing] = useState();
-
-  const refresh = useCallback(async () => {
-    setDevGroups(await getAllDevices());
-  }, []);
-
-  useEffect(() => {
-    refresh();
-  }, []);
+  const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    await refresh();
+    setDevGroups(await getAllDevices());
     setRefreshing(false);
+  }, []);
+
+  useEffect(() => {
+    onRefresh();
+
+    const subscription = AppState.addEventListener('change', (appState) => {
+      if (appState === 'active') {
+        onRefresh();
+      }
+    });
+
+    return () => {
+      subscription.remove();
+    };
   }, []);
 
   const switchState = useCallback((room, devName, devId, isOn) => {
