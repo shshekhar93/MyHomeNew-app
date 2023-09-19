@@ -7,7 +7,7 @@ import { ToastProvider } from 'react-native-toast-notifications';
 import * as ExpoSplashScreen from 'expo-splash-screen';
 import { Platform, StatusBar } from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
-import { hasSettingsSaved, addSettingsListener, removeSettingsListener } from './lib/settings';
+import { hasSettingsSaved, addSettingsListener } from './lib/settings';
 import ConnectServer from './components/connect-server';
 import ClientCredsScanner from './components/client-creds-scanner';
 import getAccessToken from './lib/oAuth';
@@ -49,7 +49,7 @@ export default function App() {
     const onSettingsChange = () => {
       setRefreshTs(Date.now());
     };
-    addSettingsListener(onSettingsChange);
+    const listener = addSettingsListener(onSettingsChange);
 
     (async () => {
       const settingsSaved = await hasSettingsSaved();
@@ -60,7 +60,7 @@ export default function App() {
       await ExpoSplashScreen.hideAsync();
     })();
 
-    return () => removeSettingsListener(onSettingsChange);
+    return () => listener.remove();
   }, [refreshTs]);
 
   useEffect(() => {
