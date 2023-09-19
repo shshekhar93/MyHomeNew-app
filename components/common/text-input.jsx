@@ -35,6 +35,7 @@ export default function ThemedTextInput(props) {
         fontSize: fontSize(size),
         marginBottom: 8,
         color: theme.TEXT_COLOR,
+        placeholderTextColor: `${theme.TEXT_COLOR}64`,
         backgroundColor: theme.CONTROL_BACKGROUND,
         border: `solid 1px ${hasFocus ? theme.CONTROL_BRODER_FOCUSSED : theme.CONTROL_BORDER}`,
         fontWeight: '300',
