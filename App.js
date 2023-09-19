@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ToastProvider } from 'react-native-toast-notifications';
 import * as ExpoSplashScreen from 'expo-splash-screen';
@@ -13,7 +13,7 @@ import ClientCredsScanner from './components/client-creds-scanner';
 import getAccessToken from './lib/oAuth';
 import DeviceList from './components/devices/device-list';
 import { DARK_MODE } from './styles/colors';
-import { ThemeContext, getMenuFromTheme, fixMinHeightStyleOnWeb } from './lib/utils';
+import { ThemeContext, getMenuFromTheme, additionalWebStyles } from './lib/utils';
 import { navigatorRef } from './lib/navigation';
 import SettingsPage from './components/settings-page';
 import AppUpdate from './components/update';
@@ -28,6 +28,22 @@ export default function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isUpdating, setUpdating] = useState(false);
   const [refreshTs, setRefreshTs] = useState(0);
+
+  const navigationTheme = useMemo(
+    () => ({
+      dark: theme === DARK_MODE,
+      colors: {
+        ...DefaultTheme.colors,
+        primary: theme.TEXT_COLOR,
+        background: theme.PAGE_BACKGROUND,
+        card: theme.CONTROL_BACKGROUND,
+        text: theme.TEXT_COLOR,
+        border: theme.CONTROL_BORDER,
+        notification: theme.SUCCESS_COLOR,
+      },
+    }),
+    [theme]
+  );
 
   useEffect(() => {
     const onSettingsChange = () => {
@@ -48,8 +64,8 @@ export default function App() {
   }, [refreshTs]);
 
   useEffect(() => {
-    fixMinHeightStyleOnWeb();
-  });
+    additionalWebStyles(theme);
+  }, []);
 
   const getMenu = useCallback(() => getMenuFromTheme(theme), [theme]);
 
@@ -63,7 +79,7 @@ export default function App() {
   return (
     <ToastProvider>
       <MenuProvider>
-        <NavigationContainer ref={navigatorRef}>
+        <NavigationContainer ref={navigatorRef} theme={navigationTheme}>
           <StatusBar backgroundColor={theme.HEADER_BACKGROUND} />
           <AppUpdate isUpdating={isUpdating} setUpdating={setUpdating} />
           {!isUpdating && (
