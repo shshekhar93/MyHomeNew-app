@@ -12,7 +12,7 @@ export default function SplashScreen() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: theme.PAGE_BACKGROUND,
+        backgroundColor: theme.DARK_MODE ? theme.PAGE_BACKGROUND : theme.HEADER_BACKGROUND,
         width: '100vw',
         height: '100vh',
       }}

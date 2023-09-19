@@ -1,4 +1,6 @@
+import { useContext } from 'react';
 import { StyleSheet } from 'react-native';
+import { ThemeContext } from '../lib/utils';
 
 export function border(borderWidth, borderColor, borderRadius) {
   return { borderWidth, borderColor, borderRadius };
@@ -43,31 +45,35 @@ export function flex(grow, dir, justifyContent, alignItems) {
   };
 }
 
-export default StyleSheet.create({
-  DeviceGroupContainer: {
-    flex: 0,
-    backgroundColor: '#1D2830',
-    marginBottom: 15,
-    minHeight: 'auto',
-    ...border(0, null, 7),
-    ...padding(null, 12, 4, 12),
-  },
+export const useStyles = () => {
+  const theme = useContext(ThemeContext);
 
-  DeviceGroupHeader: {
-    minHeight: 'auto',
-    ...flex(0, 'row', 'space-between'),
-    ...padding(8, null),
-  },
+  return StyleSheet.create({
+    DeviceGroupContainer: {
+      flex: 0,
+      backgroundColor: theme.CONTROL_BACKGROUND,
+      marginBottom: 15,
+      minHeight: 'auto',
+      ...border(0, null, 7),
+      ...padding(null, 12, 4, 12),
+    },
 
-  DeviceDisplay: {
-    minHeight: 'auto',
-    ...flex(0, 'row', 'space-between'),
-    ...padding(8),
-  },
+    DeviceGroupHeader: {
+      minHeight: 'auto',
+      ...flex(0, 'row', 'space-between'),
+      ...padding(8, null),
+    },
 
-  MenuOption: {
-    fontSize: 18,
-  },
+    DeviceDisplay: {
+      minHeight: 'auto',
+      ...flex(0, 'row', 'space-between'),
+      ...padding(8),
+    },
 
-  NO_GROW: { flex: 0 },
-});
+    MenuOption: {
+      fontSize: 18,
+    },
+
+    NO_GROW: { flex: 0 },
+  });
+};

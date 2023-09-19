@@ -4,11 +4,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { View, TouchableWithoutFeedback } from 'react-native';
 import TextDisplay from '../common/text-display';
 import DeviceDisplay from './device-display';
-import Styles from '../../styles';
+import { useStyles } from '../../styles';
 import { ThemeContext, noop } from '../../lib/utils';
 import { DeviceProp } from '../../lib/custom-prop-types';
 
 export default function DeviceGroup({ name, devices, switchState }) {
+  const styles = useStyles();
   const [isOpen, setOpen] = useState(true); // remember prev state?
 
   const onHeaderClick = useCallback(() => {
@@ -16,7 +17,7 @@ export default function DeviceGroup({ name, devices, switchState }) {
   }, []);
 
   return (
-    <View style={Styles.DeviceGroupContainer}>
+    <View style={styles.DeviceGroupContainer}>
       <DeviceGroupHeader title={name || 'Unnamed group'} isOpen={isOpen} onPress={onHeaderClick} />
       {isOpen &&
         devices.map((device) => (
@@ -41,10 +42,11 @@ DeviceGroup.propTypes = {
 };
 
 function DeviceGroupHeader({ title, isOpen, onPress }) {
+  const styles = useStyles();
   const theme = useContext(ThemeContext);
   return (
     <TouchableWithoutFeedback onPress={onPress}>
-      <View style={Styles.DeviceGroupHeader}>
+      <View style={styles.DeviceGroupHeader}>
         <TextDisplay
           size="large"
           style={{

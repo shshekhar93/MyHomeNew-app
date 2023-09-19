@@ -5,8 +5,8 @@ import SettingsList from '../lib/react-native-settings-list';
 import BasePageView from './common/base-page-view';
 import { ThemeContext } from '../lib/utils';
 import logout from './logout';
-import { DARK_MODE } from '../styles/colors';
 import TextDisplay from './common/text-display';
+import { setThemeName } from '../lib/settings';
 
 function SettingsPage() {
   const theme = useContext(ThemeContext);
@@ -28,14 +28,14 @@ function SettingsPage() {
         flex: 1,
       }}
     >
-      <SettingsList backgroundColor={theme.CONTROL_BACKGROUND}>
+      <SettingsList backgroundColor={theme.CONTROL_BACKGROUND} borderColor={theme.PAGE_BACKGROUND}>
         <SettingsList.Item
           {...commonItemProps}
           title="Use dark theme"
           rightSideContent={
             <Switch
-              value={theme === DARK_MODE}
-              onValueChange={() => {}}
+              value={theme.DARK_MODE}
+              onValueChange={(value) => setThemeName(value ? 'dark' : 'light')}
               style={{
                 transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }],
                 marginRight: 15,
@@ -55,7 +55,7 @@ function SettingsPage() {
                 alignSelf: 'center',
               }}
             >
-              {Constants.manifest.version}
+              {Constants.expoConfig.version}
             </TextDisplay>
           }
         />

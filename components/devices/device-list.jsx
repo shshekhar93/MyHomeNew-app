@@ -93,7 +93,11 @@ export default function DeviceList() {
   return (
     <BasePageView
       refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[theme.COLOR5]} />
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          colors={[theme.LOADING_COLOR]}
+        />
       }
     >
       {devGroups.map((devGrp) => (

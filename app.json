@@ -1,21 +1,21 @@
 {
   "expo": {
-    "name": "MyHomeNew-app",
-    "slug": "MyHomeNew-app",
+    "name": "Home Applyed",
+    "slug": "Home Applyed",
     "platforms": [
       "ios",
       "android",
       "web"
     ],
-    "version": "1.0.3",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#474766"
+      "backgroundColor": "#071218"
     },
-    "backgroundColor": "#cdcdcd",
+    "backgroundColor": "#071218",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -24,12 +24,12 @@
     ],
     "ios": {
       "bundleIdentifier": "com.myhomenew.app",
-      "buildNumber": "1.0.3",
+      "buildNumber": "1.0.4",
       "supportsTablet": true
     },
     "android": {
       "package": "com.myhomenew.app",
-      "versionCode": 3
+      "versionCode": 4
     }
   }
 }
