@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import TextDisplay from '../common/text-display';
 import PopAndFadeView from '../common/pop-and-fade';
 import { ThemeContext } from '../../lib/utils';
+import styles from '../../styles';
 
 export default function DeviceDisplay({ name, devId, state, room, label, switchState }) {
   const theme = useContext(ThemeContext);
@@ -23,7 +24,7 @@ export default function DeviceDisplay({ name, devId, state, room, label, switchS
   );
 
   return (
-    <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'space-between', padding: 8 }}>
+    <View style={styles.DeviceDisplay}>
       <TextDisplay>{label}</TextDisplay>
       {executing && (
         <ActivityIndicator

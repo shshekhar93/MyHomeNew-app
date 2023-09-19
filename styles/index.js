@@ -48,13 +48,21 @@ export default StyleSheet.create({
     flex: 0,
     backgroundColor: '#1D2830',
     marginBottom: 15,
+    minHeight: 'auto',
     ...border(0, null, 7),
     ...padding(null, 12, 4, 12),
   },
 
   DeviceGroupHeader: {
+    minHeight: 'auto',
     ...flex(0, 'row', 'space-between'),
     ...padding(8, null),
+  },
+
+  DeviceDisplay: {
+    minHeight: 'auto',
+    ...flex(0, 'row', 'space-between'),
+    ...padding(8),
   },
 
   MenuOption: {

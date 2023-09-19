@@ -17,6 +17,7 @@ export default function BasePageView(props) {
         flex: 1,
         padding: DEFAULT_PADDING,
         backgroundColor: theme.PAGE_BACKGROUND,
+        minHeight: 'auto',
         ...style,
       }}
       {...restProps}
