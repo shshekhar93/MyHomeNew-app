@@ -65,7 +65,11 @@ export default function ConnectServer({ navigation }) {
       >
         {useScanner ? (
           <>
-            <Button title="Scan QR Code" onPress={() => navigation.navigate('Scanner')} />
+            <Button
+              title="Scan QR Code"
+              onPress={() => navigation.navigate('Scanner')}
+              color={theme.BUTTON_COLOR}
+            />
             <TextDisplay onPress={toggleLoginMethod} style={linkStyle}>
               Enter credentials manually
             </TextDisplay>
@@ -86,9 +90,9 @@ export default function ConnectServer({ navigation }) {
               value={clientSecret}
               onChange={onSecretChange}
             />
-            <div style={{ marginTop: 15 }}>
-              <Button title="Login" onPress={onLogin} />
-            </div>
+            <View style={{ marginTop: 15 }}>
+              <Button title="Login" onPress={onLogin} color={theme.BUTTON_COLOR} />
+            </View>
             <TextDisplay onPress={toggleLoginMethod} style={linkStyle}>
               Scan QR code instead
             </TextDisplay>
@@ -102,13 +106,17 @@ export default function ConnectServer({ navigation }) {
 function ConnectInstructions({ useScanner }) {
   return (
     <View>
-      <TextDisplay>1. Navigate to home.applyed.in</TextDisplay>
-      <TextDisplay>2. Login to your account.</TextDisplay>
-      <TextDisplay>3. Select &apos;Connect to app&apos; option.</TextDisplay>
+      <TextDisplay style={{ marginBottom: 8 }}>1. Navigate to home.applyed.in</TextDisplay>
+      <TextDisplay style={{ marginBottom: 8 }}>2. Login to your account.</TextDisplay>
+      <TextDisplay style={{ marginBottom: 8 }}>
+        3. Select &apos;Connect to app&apos; option.
+      </TextDisplay>
       {useScanner ? (
-        <TextDisplay>4. Scan the displayed QR code.</TextDisplay>
+        <TextDisplay style={{ marginBottom: 8 }}>4. Scan the displayed QR code.</TextDisplay>
       ) : (
-        <TextDisplay>4. Copy &amp; paste the client id / secret here.</TextDisplay>
+        <TextDisplay style={{ marginBottom: 8 }}>
+          4. Copy &amp; paste the client id / secret here.
+        </TextDisplay>
       )}
     </View>
   );

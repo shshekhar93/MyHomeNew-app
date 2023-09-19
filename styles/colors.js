@@ -7,17 +7,18 @@ export const colorsConfig = {
     bg2: '#1D2830', // For controls
     bg3: '#424E57', // For overlays
     bg4: '#1D2830', // For header
+    bg5: '#2196F3', // For buttons
 
     fg1: '#ffffff', // For text
     fg2: '#91ADD4', // For links
-    fg3: '2FDF75', // For success alert
-    fg4: 'FF4961', // For error alert
+    fg3: '#2FDF75', // For success alert
+    fg4: '#FF4961', // For error alert
     fg5: '#ffffff', // For header text
 
     brdr1: '#424E57', // For borders
     brdr2: '#d4d4d4', // For focussed borders
 
-    spin1: '#313A40', // Spinner color
+    spin1: '#91ADD4', // Spinner color
   },
   light: {
     name: 'Light',
@@ -27,6 +28,7 @@ export const colorsConfig = {
     bg2: '#E6EBF3', // For controls
     bg3: '#EAF1F1', // For overlays
     bg4: '#1D2830', // For header
+    bg5: '#173D58', // For buttons
 
     fg1: '#000000', // For text
     fg2: '#00266f', // For links
@@ -34,8 +36,8 @@ export const colorsConfig = {
     fg4: '#FF4961', // For error alert
     fg5: '#FFFFFF', // For header text
 
-    brdr1: '#424E57', // For borders
-    brdr2: '#d4d4d4', // For focussed borders
+    brdr1: '#d4d4d4', // For borders
+    brdr2: '#424E57', // For focussed borders
 
     spin1: '#28589b', // Spinner color
   },
@@ -62,5 +64,6 @@ export const createTheme = (key, overrides = {}) => {
     CONTROL_BORDER: colors.brdr1,
     CONTROL_BRODER_FOCUSSED: colors.brdr2,
     LOADING_COLOR: colors.spin1,
+    BUTTON_COLOR: colors.bg5,
   };
 };
