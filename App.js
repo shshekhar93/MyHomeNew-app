@@ -7,12 +7,12 @@ import { ToastProvider } from 'react-native-toast-notifications';
 import * as ExpoSplashScreen from 'expo-splash-screen';
 import { Platform, StatusBar } from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
-import { hasSettingsSaved, addSettingsListener } from './lib/settings';
+import { hasSettingsSaved, addSettingsListener, getThemeName, THEME_KEY } from './lib/settings';
 import ConnectServer from './components/connect-server';
 import ClientCredsScanner from './components/client-creds-scanner';
 import getAccessToken from './lib/oAuth';
 import DeviceList from './components/devices/device-list';
-import { DARK_MODE } from './styles/colors';
+import { createTheme } from './styles/colors';
 import { ThemeContext, getMenuFromTheme, additionalWebStyles } from './lib/utils';
 import { navigatorRef } from './lib/navigation';
 import SettingsPage from './components/settings-page';
@@ -23,15 +23,17 @@ ExpoSplashScreen.preventAutoHideAsync();
 const Stack = createStackNavigator();
 
 export default function App() {
-  const [theme, setTheme] = useState(DARK_MODE);
+  const [themeName, setThemeName] = useState('dark');
   const [hasSettings, setHasSettings] = useState(null);
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isUpdating, setUpdating] = useState(false);
   const [refreshTs, setRefreshTs] = useState(0);
 
+  const theme = useMemo(() => createTheme(themeName), [themeName]);
+
   const navigationTheme = useMemo(
     () => ({
-      dark: theme === DARK_MODE,
+      dark: theme.DARK_MODE,
       colors: {
         ...DefaultTheme.colors,
         primary: theme.TEXT_COLOR,
@@ -46,7 +48,11 @@ export default function App() {
   );
 
   useEffect(() => {
-    const onSettingsChange = () => {
+    const onSettingsChange = (key, value) => {
+      if (key === THEME_KEY) {
+        setThemeName(value);
+      }
+
       setRefreshTs(Date.now());
     };
     const listener = addSettingsListener(onSettingsChange);
@@ -56,7 +62,10 @@ export default function App() {
       const accessToken = settingsSaved && (await getAccessToken());
       setHasSettings(settingsSaved);
       setLoggedIn(!!accessToken);
-      setTheme(DARK_MODE);
+      const savedTheme = await getThemeName();
+      if (savedTheme) {
+        setThemeName(savedTheme);
+      }
       await ExpoSplashScreen.hideAsync();
     })();
 
@@ -71,7 +80,11 @@ export default function App() {
 
   if (hasSettings === null) {
     if (Platform.OS === 'web') {
-      return <SplashScreen />;
+      return (
+        <ThemeContext.Provider value={theme}>
+          <SplashScreen />
+        </ThemeContext.Provider>
+      );
     }
     return null;
   }
@@ -91,7 +104,7 @@ export default function App() {
                   headerStyle: {
                     backgroundColor: theme.HEADER_BACKGROUND,
                   },
-                  headerTintColor: theme.TEXT_COLOR,
+                  headerTintColor: theme.HEADER_TEXT,
                   headerRight: showLogin ? null : getMenu,
                 }}
               >

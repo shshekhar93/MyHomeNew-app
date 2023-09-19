@@ -5,10 +5,11 @@ import { Ionicons } from '@expo/vector-icons';
 import TextDisplay from '../common/text-display';
 import PopAndFadeView from '../common/pop-and-fade';
 import { ThemeContext } from '../../lib/utils';
-import styles from '../../styles';
+import { useStyles } from '../../styles';
 
 export default function DeviceDisplay({ name, devId, state, room, label, switchState }) {
   const theme = useContext(ThemeContext);
+  const styles = useStyles();
   const [executing, setExecuting] = useState(false);
   const [success, setSuccess] = useState(null);
 
