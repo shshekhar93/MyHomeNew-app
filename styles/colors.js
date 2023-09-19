@@ -29,15 +29,15 @@ export const colorsConfig = {
     bg4: '#1D2830', // For header
 
     fg1: '#000000', // For text
-    fg2: '#91ADD4', // For links
-    fg3: '#2FDF75', // For success alert
+    fg2: '#00266f', // For links
+    fg3: '#009300', // For success alert
     fg4: '#FF4961', // For error alert
     fg5: '#FFFFFF', // For header text
 
     brdr1: '#424E57', // For borders
     brdr2: '#d4d4d4', // For focussed borders
 
-    spin1: '#313A40', // Spinner color
+    spin1: '#28589b', // Spinner color
   },
 };
 

@@ -27,26 +27,13 @@ export default function DeviceDisplay({ name, devId, state, room, label, switchS
   return (
     <View style={styles.DeviceDisplay}>
       <TextDisplay>{label}</TextDisplay>
-      {executing && (
-        <ActivityIndicator
-          size="small"
-          color={theme.LINK_COLOR}
-          style={{
-            marginTop: 5,
-            marginRight: 10,
-          }}
-        />
-      )}
+      {executing && <ActivityIndicator color={theme.LOADING_COLOR} />}
       {!executing && success !== null && (
         <PopAndFadeView onEnd={() => setSuccess(null)}>
           <Ionicons
             name={success ? 'md-checkmark-circle-outline' : 'md-alert'}
-            size={25}
+            size={24}
             color={success ? theme.SUCCESS_COLOR : theme.ALERT_COLOR}
-            style={{
-              marginTop: 5,
-              marginRight: 10,
-            }}
           />
         </PopAndFadeView>
       )}

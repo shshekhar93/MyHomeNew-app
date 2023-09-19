@@ -17,7 +17,7 @@ export default function PopAndFadeView({ style, children, onEnd }) {
     ]).start();
     setTimeout(onEnd, 1000);
   }, []);
-  return <Animated.View style={{ ...(style || {}), opacity: fadeAnim }}>{children}</Animated.View>;
+  return <Animated.View style={{ ...style, opacity: fadeAnim }}>{children}</Animated.View>;
 }
 
 PopAndFadeView.defaultProps = {
