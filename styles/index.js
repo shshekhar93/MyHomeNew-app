@@ -65,8 +65,8 @@ export const useStyles = () => {
     },
 
     DeviceDisplay: {
-      minHeight: 'auto',
-      ...flex(0, 'row', 'space-between'),
+      minHeight: '42px',
+      ...flex(0, 'row', 'space-between', 'center'),
       ...padding(8),
     },
 

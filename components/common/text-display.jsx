@@ -11,7 +11,6 @@ export default function TextDisplay(props) {
     <Text
       style={{
         fontSize: fontSize(size),
-        marginBottom: 8,
         color: theme.TEXT_COLOR,
         fontWeight: '300',
         ...style,
