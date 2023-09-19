@@ -75,6 +75,7 @@ export default function App() {
     }
     return null;
   }
+  const showLogin = !hasSettings || !isLoggedIn;
 
   return (
     <ToastProvider>
@@ -91,12 +92,12 @@ export default function App() {
                     backgroundColor: theme.HEADER_BACKGROUND,
                   },
                   headerTintColor: theme.TEXT_COLOR,
-                  headerRight: getMenu,
+                  headerRight: showLogin ? null : getMenu,
                 }}
               >
                 {
                   /* Login screens */
-                  (hasSettings === false || isLoggedIn === false) && (
+                  showLogin ? (
                     <>
                       <Stack.Screen
                         name="Login"
@@ -113,26 +114,25 @@ export default function App() {
                         }}
                       />
                     </>
+                  ) : (
+                    <>
+                      <Stack.Screen
+                        name="Devices"
+                        component={DeviceList}
+                        options={{
+                          title: 'Devices',
+                        }}
+                      />
+                      <Stack.Screen
+                        name="Settings"
+                        component={SettingsPage}
+                        options={{
+                          title: 'Settings',
+                        }}
+                      />
+                    </>
                   )
                 }
-                {hasSettings && isLoggedIn && (
-                  <>
-                    <Stack.Screen
-                      name="Devices"
-                      component={DeviceList}
-                      options={{
-                        title: 'Devices',
-                      }}
-                    />
-                    <Stack.Screen
-                      name="Settings"
-                      component={SettingsPage}
-                      options={{
-                        title: 'Settings',
-                      }}
-                    />
-                  </>
-                )}
               </Stack.Navigator>
             </ThemeContext.Provider>
           )}
