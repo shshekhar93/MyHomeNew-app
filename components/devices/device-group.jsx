@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Ionicons } from '@expo/vector-icons';
 import { View, TouchableWithoutFeedback } from 'react-native';
@@ -7,10 +7,12 @@ import DeviceDisplay from './device-display';
 import { useStyles } from '../../styles';
 import { ThemeContext, noop } from '../../lib/utils';
 import { DeviceProp } from '../../lib/custom-prop-types';
+import { Serialization, useSavedState } from '../../lib/hooks';
+import { deviceGroupStateKey } from '../../lib/constants';
 
 export default function DeviceGroup({ name, devices, switchState }) {
   const styles = useStyles();
-  const [isOpen, setOpen] = useState(true); // remember prev state?
+  const [isOpen, setOpen] = useSavedState(deviceGroupStateKey(name), true, Serialization.Boolean);
 
   const onHeaderClick = useCallback(() => {
     setOpen((old) => !old);
