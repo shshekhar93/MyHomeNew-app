@@ -1,4 +1,4 @@
-A frontend for the HomeApplyed home automation server written in React Native.
+A frontend for the [HomeApplyed](https://github.com/shshekhar93/MyHomeNew-hub) home automation server written in React Native.
 
 ## Platforms
 * Web
