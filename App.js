@@ -3,10 +3,10 @@ import 'react-native-gesture-handler';
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { ToastProvider } from 'react-native-toast-notifications';
 import * as ExpoSplashScreen from 'expo-splash-screen';
 import { Platform, StatusBar } from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
+import ToastManager from 'toastify-react-native';
 import { hasSettingsSaved, addSettingsListener, getThemeName, THEME_KEY } from './lib/settings';
 import ConnectServer from './components/connect-server';
 import ClientCredsScanner from './components/client-creds-scanner';
@@ -91,66 +91,65 @@ export default function App() {
   const showLogin = !hasSettings || !isLoggedIn;
 
   return (
-    <ToastProvider>
-      <MenuProvider>
-        <NavigationContainer ref={navigatorRef} theme={navigationTheme}>
-          <StatusBar backgroundColor={theme.HEADER_BACKGROUND} />
-          <AppUpdate isUpdating={isUpdating} setUpdating={setUpdating} />
-          {!isUpdating && (
-            <ThemeContext.Provider value={theme}>
-              <Stack.Navigator
-                initialRouteName="Home"
-                screenOptions={{
-                  headerStyle: {
-                    backgroundColor: theme.HEADER_BACKGROUND,
-                  },
-                  headerTintColor: theme.HEADER_TEXT,
-                  headerRight: showLogin ? null : getMenu,
-                }}
-              >
-                {
-                  /* Login screens */
-                  showLogin ? (
-                    <>
-                      <Stack.Screen
-                        name="Login"
-                        component={ConnectServer}
-                        options={{
-                          title: 'Login',
-                        }}
-                      />
-                      <Stack.Screen
-                        name="Scanner"
-                        component={ClientCredsScanner}
-                        options={{
-                          title: 'Scan QR',
-                        }}
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <Stack.Screen
-                        name="Devices"
-                        component={DeviceList}
-                        options={{
-                          title: 'Devices',
-                        }}
-                      />
-                      <Stack.Screen
-                        name="Settings"
-                        component={SettingsPage}
-                        options={{
-                          title: 'Settings',
-                        }}
-                      />
-                    </>
-                  )
-                }
-              </Stack.Navigator>
-            </ThemeContext.Provider>
-          )}
-        </NavigationContainer>
-      </MenuProvider>
-    </ToastProvider>
+    <MenuProvider>
+      <NavigationContainer ref={navigatorRef} theme={navigationTheme}>
+        <StatusBar backgroundColor={theme.HEADER_BACKGROUND} />
+        <AppUpdate isUpdating={isUpdating} setUpdating={setUpdating} />
+        {!isUpdating && (
+          <ThemeContext.Provider value={theme}>
+            <Stack.Navigator
+              initialRouteName="Home"
+              screenOptions={{
+                headerStyle: {
+                  backgroundColor: theme.HEADER_BACKGROUND,
+                },
+                headerTintColor: theme.HEADER_TEXT,
+                headerRight: showLogin ? null : getMenu,
+              }}
+            >
+              {
+                /* Login screens */
+                showLogin ? (
+                  <>
+                    <Stack.Screen
+                      name="Login"
+                      component={ConnectServer}
+                      options={{
+                        title: 'Login',
+                      }}
+                    />
+                    <Stack.Screen
+                      name="Scanner"
+                      component={ClientCredsScanner}
+                      options={{
+                        title: 'Scan QR',
+                      }}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <Stack.Screen
+                      name="Devices"
+                      component={DeviceList}
+                      options={{
+                        title: 'Devices',
+                      }}
+                    />
+                    <Stack.Screen
+                      name="Settings"
+                      component={SettingsPage}
+                      options={{
+                        title: 'Settings',
+                      }}
+                    />
+                  </>
+                )
+              }
+            </Stack.Navigator>
+          </ThemeContext.Provider>
+        )}
+        <ToastManager />
+      </NavigationContainer>
+    </MenuProvider>
   );
 }

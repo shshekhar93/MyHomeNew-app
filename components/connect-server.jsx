@@ -1,16 +1,15 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { Button, View } from 'react-native';
+import { Toast } from 'toastify-react-native';
 import BasePageView from './common/base-page-view';
 import TextDisplay from './common/text-display';
 import ThemedTextInput from './common/text-input';
 import { ThemeContext } from '../lib/utils';
-import useToastHelper from '../lib/use-toast-helper';
 import * as Settings from '../lib/settings';
 import { DEFAULT_SERVER } from '../lib/constants';
 
 export default function ConnectServer({ navigation }) {
   const theme = useContext(ThemeContext);
-  const Toast = useToastHelper();
   const [useScanner, setUseScanner] = useState(true);
   const [clientId, setClientId] = useState('');
   const [clientSecret, setClientSecret] = useState('');
@@ -38,7 +37,7 @@ export default function ConnectServer({ navigation }) {
 
   const onLogin = useCallback(() => {
     if (!clientId || !clientSecret) {
-      Toast.show('Please enter client id and secret', Toast.SHORT);
+      Toast.error('Please enter client id and secret');
       return;
     }
 
@@ -48,10 +47,10 @@ export default function ConnectServer({ navigation }) {
       Settings.setClientSecret(clientSecret),
     ])
       .then(() => {
-        Toast.show('Logged in successfully', Toast.SHORT);
+        Toast.success('Logged in successfully');
       })
       .catch(() => {
-        Toast.show('Login failed!', Toast.SHORT);
+        Toast.error('Login failed!');
       });
   }, [clientId, clientSecret]);
 
