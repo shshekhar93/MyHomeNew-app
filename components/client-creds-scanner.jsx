@@ -45,7 +45,8 @@ export default function ClientCredsScanner() {
         setClientSecret(clientSecret),
       ]);
       Toast.success('Logged in successfully');
-    } catch (e) {
+    }
+    catch {
       Toast.error('Failed to save credentials!');
       loggingIn.current = false;
     }

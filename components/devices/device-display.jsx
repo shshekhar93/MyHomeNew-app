@@ -21,7 +21,7 @@ export default function DeviceDisplay({ name, devId, state, room, label, switchS
         setExecuting(false);
       });
     },
-    [room, name, devId]
+    [room, name, devId],
   );
 
   return (
