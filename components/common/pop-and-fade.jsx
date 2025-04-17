@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Animated } from 'react-native';
 import { noop } from '../../lib/utils';
 
-export default function PopAndFadeView({ style, children, onEnd }) {
+export default function PopAndFadeView({ style = {}, children, onEnd = noop }) {
   const [fadeAnim] = useState(new Animated.Value(0));
 
   useEffect(() => {
@@ -19,8 +19,3 @@ export default function PopAndFadeView({ style, children, onEnd }) {
   }, []);
   return <Animated.View style={{ ...style, opacity: fadeAnim }}>{children}</Animated.View>;
 }
-
-PopAndFadeView.defaultProps = {
-  style: {},
-  onEnd: noop,
-};

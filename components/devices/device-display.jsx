@@ -31,7 +31,7 @@ export default function DeviceDisplay({ name, devId, state, room, label, switchS
       {!executing && success !== null && (
         <PopAndFadeView onEnd={() => setSuccess(null)}>
           <Ionicons
-            name={success ? 'md-checkmark-circle-outline' : 'md-alert'}
+            name={success ? 'checkmark-circle-outline' : 'alert'}
             size={24}
             color={success ? theme.SUCCESS_COLOR : theme.ALERT_COLOR}
           />

@@ -10,7 +10,7 @@ import { DeviceProp } from '../../lib/custom-prop-types';
 import { Serialization, useSavedState } from '../../lib/hooks';
 import { deviceGroupStateKey } from '../../lib/constants';
 
-export default function DeviceGroup({ name, devices, switchState }) {
+export default function DeviceGroup({ name = 'Unnamed group', devices = [], switchState }) {
   const styles = useStyles();
   const [isOpen, setOpen] = useSavedState(deviceGroupStateKey(name), true, Serialization.Boolean);
 
@@ -20,7 +20,7 @@ export default function DeviceGroup({ name, devices, switchState }) {
 
   return (
     <View style={styles.DeviceGroupContainer}>
-      <DeviceGroupHeader title={name || 'Unnamed group'} isOpen={isOpen} onPress={onHeaderClick} />
+      <DeviceGroupHeader title={name} isOpen={isOpen} onPress={onHeaderClick} />
       {isOpen &&
         devices.map((device) => (
           <DeviceDisplay
@@ -33,17 +33,13 @@ export default function DeviceGroup({ name, devices, switchState }) {
   );
 }
 
-DeviceGroup.defaultProps = {
-  devices: [],
-};
-
 DeviceGroup.propTypes = {
   name: PropTypes.string.isRequired,
   devices: PropTypes.arrayOf(DeviceProp),
   switchState: PropTypes.func.isRequired,
 };
 
-function DeviceGroupHeader({ title, isOpen, onPress }) {
+function DeviceGroupHeader({ title, isOpen, onPress = noop }) {
   const styles = useStyles();
   const theme = useContext(ThemeContext);
   return (
@@ -62,10 +58,6 @@ function DeviceGroupHeader({ title, isOpen, onPress }) {
     </TouchableWithoutFeedback>
   );
 }
-
-DeviceGroupHeader.defaultProps = {
-  onPress: noop,
-};
 
 DeviceGroupHeader.propTypes = {
   onPress: PropTypes.func,
