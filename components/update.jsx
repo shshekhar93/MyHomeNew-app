@@ -24,7 +24,8 @@ function AppUpdate({ isUpdating, setUpdating }) {
           setHasUpdate(true);
           setDownloadUrl(manifest.url);
         }
-      } catch (e) {
+      }
+      catch {
         // console.error(e.stack);
         Toast.error('Checking for updates failed.');
       }
@@ -35,9 +36,9 @@ function AppUpdate({ isUpdating, setUpdating }) {
     if (hasUpdate) {
       Alert.alert(
         'New update available',
-        'We have a new version of the ' +
-          'app available for download. ' +
-          'Would you like to proceed with the update?',
+        'We have a new version of the '
+        + 'app available for download. '
+        + 'Would you like to proceed with the update?',
         [
           {
             text: 'Cancel',
@@ -52,7 +53,7 @@ function AppUpdate({ isUpdating, setUpdating }) {
               setUpdating(true);
             },
           },
-        ]
+        ],
       );
     }
   }, [hasUpdate]);

@@ -16,7 +16,7 @@ async function getAllDevices(comparator) {
     const thisRoom = allRooms[roomName] || [];
 
     const leads = thisDev.leads || [];
-    const leadsInThisDev = leads.map((lead) => ({
+    const leadsInThisDev = leads.map(lead => ({
       ...lead,
       ..._pick(thisDev, COMMON_PROP_NAMES),
     }));
@@ -30,11 +30,11 @@ async function getAllDevices(comparator) {
   return Object.keys(devsMappedToRoom)
     .sort(comparator)
     .map(
-      (room) => ({
+      room => ({
         name: room,
         devices: devsMappedToRoom[room],
       }),
-      []
+      [],
     );
 }
 
@@ -68,23 +68,22 @@ export default function DeviceList() {
     return setDevState(devName, devId, state)
       .then(() => {
         // success
-        setDevGroups((oldGroups) =>
+        setDevGroups(oldGroups =>
           oldGroups.map((grp) => {
             if (grp.name !== room) {
               return grp;
             }
             return {
               ...grp,
-              devices: grp.devices.map((dev) =>
-                dev.name === devName && dev.devId === devId ? { ...dev, state } : dev
+              devices: grp.devices.map(dev =>
+                dev.name === devName && dev.devId === devId ? { ...dev, state } : dev,
               ),
             };
-          })
+          }),
         );
         return true;
       })
       .catch((err) => {
-        /* eslint-disable-next-line no-console */
         console.error(`setState ${devName}-${devId} to ${isOn} failed:`, err.message);
         return false;
       });
@@ -92,15 +91,15 @@ export default function DeviceList() {
 
   return (
     <BasePageView
-      refreshControl={
+      refreshControl={(
         <RefreshControl
           refreshing={refreshing}
           onRefresh={onRefresh}
           colors={[theme.LOADING_COLOR]}
         />
-      }
+      )}
     >
-      {devGroups.map((devGrp) => (
+      {devGroups.map(devGrp => (
         <DeviceGroup key={devGrp.name} switchState={switchState} {...devGrp} />
       ))}
     </BasePageView>

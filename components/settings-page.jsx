@@ -32,22 +32,22 @@ function SettingsPage() {
         <SettingsList.Item
           {...commonItemProps}
           title="Use dark theme"
-          rightSideContent={
+          rightSideContent={(
             <Switch
               value={theme.DARK_MODE}
-              onValueChange={(value) => setThemeName(value ? 'dark' : 'light')}
+              onValueChange={value => setThemeName(value ? 'dark' : 'light')}
               style={{
                 transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }],
                 marginRight: 15,
                 alignSelf: 'center',
               }}
             />
-          }
+          )}
         />
         <SettingsList.Item
           {...commonItemProps}
           title="App version"
-          rightSideContent={
+          rightSideContent={(
             <TextDisplay
               style={{
                 marginTop: 7,
@@ -57,7 +57,7 @@ function SettingsPage() {
             >
               {Constants.expoConfig.version}
             </TextDisplay>
-          }
+          )}
         />
         <SettingsList.Item {...commonItemProps} title="Logout" onPress={logout} />
       </SettingsList>

@@ -16,7 +16,7 @@ export default function ThemedTextInput(props) {
         onFocus(e);
       }
     },
-    [onFocus]
+    [onFocus],
   );
 
   const onBlurHandler = useCallback(
@@ -26,7 +26,7 @@ export default function ThemedTextInput(props) {
         onBlur(e);
       }
     },
-    [onBlur]
+    [onBlur],
   );
 
   return (
