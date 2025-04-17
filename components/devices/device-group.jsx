@@ -15,14 +15,14 @@ export default function DeviceGroup({ name = 'Unnamed group', devices = [], swit
   const [isOpen, setOpen] = useSavedState(deviceGroupStateKey(name), true, Serialization.Boolean);
 
   const onHeaderClick = useCallback(() => {
-    setOpen((old) => !old);
+    setOpen(old => !old);
   }, []);
 
   return (
     <View style={styles.DeviceGroupContainer}>
       <DeviceGroupHeader title={name} isOpen={isOpen} onPress={onHeaderClick} />
-      {isOpen &&
-        devices.map((device) => (
+      {isOpen
+        && devices.map(device => (
           <DeviceDisplay
             key={`${device.name}-${device.devId}`}
             {...device}

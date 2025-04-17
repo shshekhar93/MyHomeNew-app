@@ -44,7 +44,7 @@ export default function App() {
         notification: theme.SUCCESS_COLOR,
       },
     }),
-    [theme]
+    [theme],
   );
 
   useEffect(() => {
@@ -109,41 +109,43 @@ export default function App() {
             >
               {
                 /* Login screens */
-                showLogin ? (
-                  <>
-                    <Stack.Screen
-                      name="Login"
-                      component={ConnectServer}
-                      options={{
-                        title: 'Login',
-                      }}
-                    />
-                    <Stack.Screen
-                      name="Scanner"
-                      component={ClientCredsScanner}
-                      options={{
-                        title: 'Scan QR',
-                      }}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <Stack.Screen
-                      name="Devices"
-                      component={DeviceList}
-                      options={{
-                        title: 'Devices',
-                      }}
-                    />
-                    <Stack.Screen
-                      name="Settings"
-                      component={SettingsPage}
-                      options={{
-                        title: 'Settings',
-                      }}
-                    />
-                  </>
-                )
+                showLogin
+                  ? (
+                      <>
+                        <Stack.Screen
+                          name="Login"
+                          component={ConnectServer}
+                          options={{
+                            title: 'Login',
+                          }}
+                        />
+                        <Stack.Screen
+                          name="Scanner"
+                          component={ClientCredsScanner}
+                          options={{
+                            title: 'Scan QR',
+                          }}
+                        />
+                      </>
+                    )
+                  : (
+                      <>
+                        <Stack.Screen
+                          name="Devices"
+                          component={DeviceList}
+                          options={{
+                            title: 'Devices',
+                          }}
+                        />
+                        <Stack.Screen
+                          name="Settings"
+                          component={SettingsPage}
+                          options={{
+                            title: 'Settings',
+                          }}
+                        />
+                      </>
+                    )
               }
             </Stack.Navigator>
           </ThemeContext.Provider>

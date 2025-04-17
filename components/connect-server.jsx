@@ -20,11 +20,11 @@ export default function ConnectServer({ navigation }) {
       textAlign: 'center',
       marginTop: 15,
     }),
-    [theme]
+    [theme],
   );
 
   const toggleLoginMethod = useCallback(() => {
-    setUseScanner((val) => !val);
+    setUseScanner(val => !val);
   }, []);
 
   const onIdChange = useCallback((e) => {
@@ -62,41 +62,43 @@ export default function ConnectServer({ navigation }) {
           marginTop: 45,
         }}
       >
-        {useScanner ? (
-          <>
-            <Button
-              title="Scan QR Code"
-              onPress={() => navigation.navigate('Scanner')}
-              color={theme.BUTTON_COLOR}
-            />
-            <TextDisplay onPress={toggleLoginMethod} style={linkStyle}>
-              Enter credentials manually
-            </TextDisplay>
-          </>
-        ) : (
-          <>
-            <ThemedTextInput
-              autoCapitalize="none"
-              autoCorrect={false}
-              placeholder="Client ID"
-              value={clientId}
-              onChange={onIdChange}
-            />
-            <ThemedTextInput
-              autoCapitalize="none"
-              autoCorrect={false}
-              placeholder="Client secret"
-              value={clientSecret}
-              onChange={onSecretChange}
-            />
-            <View style={{ marginTop: 15 }}>
-              <Button title="Login" onPress={onLogin} color={theme.BUTTON_COLOR} />
-            </View>
-            <TextDisplay onPress={toggleLoginMethod} style={linkStyle}>
-              Scan QR code instead
-            </TextDisplay>
-          </>
-        )}
+        {useScanner
+          ? (
+              <>
+                <Button
+                  title="Scan QR Code"
+                  onPress={() => navigation.navigate('Scanner')}
+                  color={theme.BUTTON_COLOR}
+                />
+                <TextDisplay onPress={toggleLoginMethod} style={linkStyle}>
+                  Enter credentials manually
+                </TextDisplay>
+              </>
+            )
+          : (
+              <>
+                <ThemedTextInput
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  placeholder="Client ID"
+                  value={clientId}
+                  onChange={onIdChange}
+                />
+                <ThemedTextInput
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  placeholder="Client secret"
+                  value={clientSecret}
+                  onChange={onSecretChange}
+                />
+                <View style={{ marginTop: 15 }}>
+                  <Button title="Login" onPress={onLogin} color={theme.BUTTON_COLOR} />
+                </View>
+                <TextDisplay onPress={toggleLoginMethod} style={linkStyle}>
+                  Scan QR code instead
+                </TextDisplay>
+              </>
+            )}
       </View>
     </BasePageView>
   );
@@ -110,13 +112,15 @@ function ConnectInstructions({ useScanner }) {
       <TextDisplay style={{ marginBottom: 8 }}>
         3. Select &apos;Connect to app&apos; option.
       </TextDisplay>
-      {useScanner ? (
-        <TextDisplay style={{ marginBottom: 8 }}>4. Scan the displayed QR code.</TextDisplay>
-      ) : (
-        <TextDisplay style={{ marginBottom: 8 }}>
-          4. Copy &amp; paste the client id / secret here.
-        </TextDisplay>
-      )}
+      {useScanner
+        ? (
+            <TextDisplay style={{ marginBottom: 8 }}>4. Scan the displayed QR code.</TextDisplay>
+          )
+        : (
+            <TextDisplay style={{ marginBottom: 8 }}>
+              4. Copy &amp; paste the client id / secret here.
+            </TextDisplay>
+          )}
     </View>
   );
 }

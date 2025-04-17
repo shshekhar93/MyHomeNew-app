@@ -6,7 +6,6 @@ export function border(borderWidth, borderColor, borderRadius) {
   return { borderWidth, borderColor, borderRadius };
 }
 
-/* eslint-disable-next-line valid-typeof */
 const onlyOfType = (type, val) => (typeof val === type ? val : undefined);
 
 export function padding(paddingTop, paddingRight, paddingBottom, paddingLeft) {
