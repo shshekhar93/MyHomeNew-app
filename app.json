@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "Home Applyed",
-    "slug": "Home Applyed",
+    "name": "HomeApplyed App",
+    "slug": "homeapplyed_app",
+    "newArchEnabled": true,
     "platforms": [
       "ios",
       "android",
@@ -30,6 +31,23 @@
     "android": {
       "package": "com.myhomenew.app",
       "versionCode": 4
-    }
+    },
+    "plugins": [
+      [
+        "expo-camera", {
+          "cameraPermission": "Allow HomeApplyed to access your camera",
+          "microphonePermission": "Allow HomeApplyed to access your microphone",
+          "recordAudioAndroid": true
+        }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./node_modules/@react-native-vector-icons/ionicons/fonts/Ionicons.ttf"
+          ]
+        }
+      ]
+    ]
   }
 }

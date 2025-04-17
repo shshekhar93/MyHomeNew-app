@@ -1,29 +1,22 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { View, Platform } from 'react-native';
-import { Camera } from 'expo-camera';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+import { CameraView, useCameraPermissions } from 'expo-camera';
+import { Toast } from 'toastify-react-native';
 import TextDisplay from './common/text-display';
 import { setServerAddress, setClientId, setClientSecret } from '../lib/settings';
-import useToastHelper from '../lib/use-toast-helper';
 
 export default function ClientCredsScanner() {
   const [err, setErr] = useState(null);
-  const [hasPermission, setPermission] = useState(false);
+  const [permission, requestPermission] = useCameraPermissions();
   const loggingIn = useRef(false);
-  const Toast = useToastHelper();
 
   useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      if (status === 'granted') {
-        setPermission(true);
-      } else {
-        setErr('Please grant camera permission to scan.');
-      }
-    })();
-  }, []);
+    if (permission && !permission.granted) {
+      requestPermission();
+    }
+  }, [permission]);
 
-  const onCredsScanned = useCallback(({ data }) => {
+  const onCredsScanned = useCallback(async ({ data }) => {
     if (loggingIn.current) {
       return;
     }
@@ -35,22 +28,27 @@ export default function ClientCredsScanner() {
 
     if (!clientId || !clientSecret || !hostname) {
       if (Platform.OS === 'android') {
-        Toast.show('Invalid QR Code', Toast.SHORT);
+        Toast.success('Invalid QR Code');
         return;
       }
       setErr('Invalid QR scanned!');
       return;
     }
 
-    Toast.show('Scan complete. Logging in..', Toast.SHORT);
+    Toast.show('Scan complete. Logging in..');
     loggingIn.current = true;
-    Promise.all([setServerAddress(hostname), setClientId(clientId), setClientSecret(clientSecret)])
-      .then(() => {
-        Toast.show('Logged in successfully', Toast.SHORT);
-      })
-      .catch(() => {
-        loggingIn.current = false;
-      });
+
+    try {
+      await Promise.all([
+        setServerAddress(hostname),
+        setClientId(clientId),
+        setClientSecret(clientSecret),
+      ]);
+      Toast.success('Logged in successfully');
+    } catch (e) {
+      Toast.error('Failed to save credentials!');
+      loggingIn.current = false;
+    }
   }, []);
 
   return (
@@ -67,13 +65,19 @@ export default function ClientCredsScanner() {
           {err}
         </TextDisplay>
       )}
-      {hasPermission && (
-        <Camera
-          autoFocus={Camera.Constants.AutoFocus.on}
+      {!permission?.granted && (
+        <TextDisplay size="medium" style={{ color: 'red', marginTop: 16 }}>
+          Please Allow access to camera for scanning QR code.
+        </TextDisplay>
+      )}
+      {permission?.granted && (
+        <CameraView
+          autoFocus="on"
+          facing="back"
           barCodeScannerSettings={{
-            barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
+            barCodeTypes: ['qr'],
           }}
-          onBarCodeScanned={onCredsScanned}
+          onBarcodeScanned={onCredsScanned}
           style={{ flex: 1 }}
         />
       )}

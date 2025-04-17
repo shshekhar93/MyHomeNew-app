@@ -1,15 +1,11 @@
 import React, { useContext } from 'react';
 import { ScrollView } from 'react-native';
-import _omit from 'lodash/omit';
 import { ThemeContext } from '../../lib/utils';
 
 const DEFAULT_PADDING = 15;
 
-const PROP_NAMES = ['style', 'children'];
-export default function BasePageView(props) {
+export default function BasePageView({ style = {}, children, ...restProps }) {
   const theme = useContext(ThemeContext);
-  const { style, children } = props;
-  const restProps = _omit(props, PROP_NAMES);
 
   return (
     <ScrollView
@@ -26,7 +22,3 @@ export default function BasePageView(props) {
     </ScrollView>
   );
 }
-
-BasePageView.defaultProps = {
-  style: {},
-};

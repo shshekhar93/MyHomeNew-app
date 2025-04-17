@@ -1,12 +1,10 @@
 import React, { useContext } from 'react';
 import { Text } from 'react-native';
-import _omit from 'lodash/omit';
 import { fontSize, ThemeContext } from '../../lib/utils';
 
-export default function TextDisplay(props) {
+export default function TextDisplay({ style = {}, size = 'normal', children, ...restProps }) {
   const theme = useContext(ThemeContext);
-  const { style, size, children } = props;
-  const restProps = _omit(props, ['style', 'size', 'children']);
+
   return (
     <Text
       style={{
@@ -21,8 +19,3 @@ export default function TextDisplay(props) {
     </Text>
   );
 }
-
-TextDisplay.defaultProps = {
-  style: {},
-  size: 'normal',
-};
