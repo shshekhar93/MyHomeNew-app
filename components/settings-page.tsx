@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from 'react';
 import Constants from 'expo-constants';
 import { Switch } from 'react-native-gesture-handler';
-import SettingsList from '../lib/react-native-settings-list';
+import SettingsList, { SettingsListItem } from '../lib/react-native-settings-list';
 import BasePageView from './common/base-page-view';
 import { ThemeContext } from '../lib/utils';
 import logout from './logout';
@@ -29,7 +29,7 @@ function SettingsPage() {
       }}
     >
       <SettingsList backgroundColor={theme.CONTROL_BACKGROUND} borderColor={theme.PAGE_BACKGROUND}>
-        <SettingsList.Item
+        <SettingsListItem
           {...commonItemProps}
           title="Use dark theme"
           rightSideContent={(
@@ -44,7 +44,7 @@ function SettingsPage() {
             />
           )}
         />
-        <SettingsList.Item
+        <SettingsListItem
           {...commonItemProps}
           title="App version"
           rightSideContent={(
@@ -59,7 +59,7 @@ function SettingsPage() {
             </TextDisplay>
           )}
         />
-        <SettingsList.Item {...commonItemProps} title="Logout" onPress={logout} />
+        <SettingsListItem {...commonItemProps} title="Logout" onPress={logout} />
       </SettingsList>
     </BasePageView>
   );

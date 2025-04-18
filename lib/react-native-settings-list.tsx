@@ -7,7 +7,6 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import createReactClass from 'create-react-class';
 
 import {
   View,
@@ -17,20 +16,20 @@ import {
   ScrollView,
   TextInput,
   Switch,
-  Image,
 } from 'react-native';
 
-class SettingsList extends React.Component {
-  static propTypes = {
-    backgroundColor: PropTypes.string,
-    borderColor: PropTypes.string,
-    defaultItemSize: PropTypes.number,
-    underlayColor: PropTypes.string,
-    defaultTitleStyle: PropTypes.object,
-    defaultTitleInfoPosition: PropTypes.string,
-    scrollViewProps: PropTypes.object,
-  };
+export type SettingsListProps = {
+  backgroundColor: string;
+  borderColor: string;
+  defaultItemSize: number;
+  underlayColor: string;
+  defaultTitleStyle?: object;
+  defaultTitleInfoPosition?: string;
+  scrollViewProps?: object;
+  children: React.CElement<{}, SettingsListHeader | SettingsListItem>[];
+};
 
+export class SettingsList extends React.Component<SettingsListProps> {
   static defaultProps ={
     backgroundColor: 'white',
     borderColor: 'black',
@@ -48,14 +47,14 @@ class SettingsList extends React.Component {
       // Allow for null, optional fields
       if(!child) return;
 
-      if(child.type.displayName === 'Header'){
+      if(child.type.displayName === 'SettingsListHeader'){
         if(groupNumber != -1){
           result[groupNumber] = {items: itemGroup, header: headers[groupNumber] };
           itemGroup = [];
         }
         groupNumber++;
         headers[groupNumber] = child.props;
-      } else if(child.type.displayName === 'Item'){
+      } else if(child.type.displayName === 'SettingsListItem'){
         if(groupNumber == -1){
           groupNumber++;
         }
@@ -113,7 +112,7 @@ class SettingsList extends React.Component {
     }
   }
 
-  _itemEditableBlock(item, index, position) {
+  _itemEditableBlock(item, index: number, position?: 'Bottom') {
 
     return ([
         <Text
@@ -135,7 +134,7 @@ class SettingsList extends React.Component {
     ])
   }
 
-  _itemTitleBlock(item, index, position) {
+  _itemTitleBlock(item, index, position?: 'Bottom') {
     return ([
       <Text
           key={'itemTitle_' + index}
@@ -189,6 +188,7 @@ class SettingsList extends React.Component {
                 <View style={{borderBottomWidth:1,borderColor:this.props.borderColor}}>
                   <TextInput
                     ref="UserNameInputBlock"
+                    // @ts-expect-error - The refs types are not correctly defined.
                     onSubmitEditing={() => this.refs.PasswordInputBlock.focus()}
                     style={{flex:1,height:30, borderBottomWidth:1}}
                     placeholder = "username"
@@ -212,7 +212,7 @@ class SettingsList extends React.Component {
           <View style={item.titleBoxStyle ? item.titleBoxStyle : [styles.titleBox, border, {minHeight:item.itemWidth ? item.itemWidth : this.props.defaultItemSize}]}>
             {titleInfoPosition === 'Bottom' ?
                 <View style={{flexDirection:'column',flex:1,justifyContent:'center'}}>
-                    {item.isEditable ? this._itemEditableBlock(item, inde, 'Bottom') : this._itemTitleBlock(item, index, 'Bottom')}
+                    {item.isEditable ? this._itemEditableBlock(item, index, 'Bottom') : this._itemTitleBlock(item, index, 'Bottom')}
                 </View>
               : item.isEditable ? this._itemEditableBlock(item, index) : this._itemTitleBlock(item, index)}
 
@@ -270,31 +270,34 @@ const styles = StyleSheet.create({
 /**
  * Optional Header for groups
  */
-SettingsList.Header = createReactClass({
-  propTypes: {
+export class SettingsListHeader extends React.Component {
+
+  static propTypes = {
     headerText: PropTypes.string,
     headerStyle: PropTypes.object,
     headerRef: PropTypes.func,
     headerNumberOfLines: PropTypes.number,
-  },
+  };
+
   getDefaultProps() {
     return {
       headerNumberOfLines: 1,
     };
-  },
+  };
+
   /**
    * not directly rendered
    */
   render(){
     return null;
   }
-});
+}
 
 /**
  * Individual Items in the Settings List
  */
-SettingsList.Item = createReactClass({
-  propTypes: {
+export class SettingsListItem extends React.Component {
+  static propTypes = {
     /**
      * Title being displayed
      */
@@ -389,18 +392,19 @@ SettingsList.Item = createReactClass({
     borderHide: PropTypes.oneOf(['Top', 'Bottom', 'Both']),
 
     itemRef: PropTypes.func,
-  },
+  };
+
   getDefaultProps(){
     return {
       hasNavArrow: true
     }
-  },
+  }
   /**
    * not directly rendered
    */
   render(){
     return null;
-  },
-});
+  }
+}
 
 export default SettingsList;

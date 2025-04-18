@@ -1,5 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import EventEmitter from 'react-native/Libraries/vendor/emitter/EventEmitter.js';
+import { noop } from './utils';
+
+export type SettingsUpdateListener = (key: string, value: any) => void;
 
 const settingsUpdate = new EventEmitter();
 
@@ -55,10 +58,9 @@ async function hasSettingsSaved() {
   return values.every(Boolean);
 }
 
-function addSettingsListener(key, cb) {
-  const hasKey = arguments.length > 1;
-  const rKey = hasKey ? key : '*';
-  const rCb = hasKey ? cb : key;
+function addSettingsListener(key: string | SettingsUpdateListener, cb?: SettingsUpdateListener) {
+  const rKey = typeof key === 'string' ? key : '*';
+  const rCb = cb ? cb : typeof key !=='string' ? key : noop;
 
   return settingsUpdate.addListener(rKey, rCb);
 }

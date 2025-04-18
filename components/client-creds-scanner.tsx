@@ -35,7 +35,7 @@ export default function ClientCredsScanner() {
       return;
     }
 
-    Toast.show('Scan complete. Logging in..');
+    Toast.success('Scan complete. Logging in..');
     loggingIn.current = true;
 
     try {
@@ -73,10 +73,10 @@ export default function ClientCredsScanner() {
       )}
       {permission?.granted && (
         <CameraView
-          autoFocus="on"
+          autofocus='on'
           facing="back"
-          barCodeScannerSettings={{
-            barCodeTypes: ['qr'],
+          barcodeScannerSettings={{
+            barcodeTypes: ['qr'],
           }}
           onBarcodeScanned={onCredsScanned}
           style={{ flex: 1 }}
