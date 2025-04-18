@@ -9,10 +9,12 @@ export default function PopAndFadeView({ style = {}, children, onEnd = noop }) {
     Animated.sequence([
       Animated.timing(fadeAnim, {
         toValue: 1,
+        useNativeDriver: true,
       }),
       Animated.delay(200),
       Animated.timing(fadeAnim, {
         toValue: 0,
+        useNativeDriver: true,
       }),
     ]).start();
     setTimeout(onEnd, 1000);
