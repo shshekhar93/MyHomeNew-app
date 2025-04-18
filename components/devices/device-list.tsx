@@ -8,7 +8,7 @@ import { ThemeContext } from '../../lib/utils';
 
 const COMMON_PROP_NAMES = ['name', 'isActive', 'room'];
 
-async function getAllDevices(comparator) {
+async function getAllDevices(comparator?: Parameters<typeof Array.prototype.sort>[0]) {
   const devices = await getDevices();
 
   const devsMappedToRoom = devices.reduce((allRooms, thisDev) => {

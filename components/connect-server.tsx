@@ -7,6 +7,7 @@ import ThemedTextInput from './common/text-input';
 import { ThemeContext } from '../lib/utils';
 import * as Settings from '../lib/settings';
 import { DEFAULT_SERVER } from '../lib/constants';
+import { ScreenNames } from '../lib/navigation';
 
 export default function ConnectServer({ navigation }) {
   const theme = useContext(ThemeContext);
@@ -67,7 +68,7 @@ export default function ConnectServer({ navigation }) {
               <>
                 <Button
                   title="Scan QR Code"
-                  onPress={() => navigation.navigate('Scanner')}
+                  onPress={() => navigation.navigate(ScreenNames.Scanner)}
                   color={theme.BUTTON_COLOR}
                 />
                 <TextDisplay onPress={toggleLoginMethod} style={linkStyle}>

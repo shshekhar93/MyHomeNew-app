@@ -24,7 +24,7 @@ const uri = path => `${serverAddress}${path}`;
 
 let accessToken = '';
 
-export default async function getAccessToken(refresh) {
+export default async function getAccessToken(refresh: boolean = false) {
   if (!refresh && accessToken) {
     return accessToken;
   }

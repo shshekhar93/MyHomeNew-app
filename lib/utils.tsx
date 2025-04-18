@@ -3,7 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Menu, MenuTrigger, MenuOption, MenuOptions } from 'react-native-popup-menu';
 import { Platform } from 'react-native';
 import { createTheme } from '../styles/colors';
-import { navigate } from './navigation';
+import { navigate, ScreenNames } from './navigation';
 import { BASE_SIZES } from './constants';
 
 export const ThemeContext = React.createContext(createTheme('dark'));
@@ -40,17 +40,17 @@ export function getMenuFromTheme(theme) {
       >
         <MenuOption
           customStyles={{ optionText: { ...optStyle.optionText, marginTop: 7 } }}
-          onSelect={() => navigate('Devices')}
+          onSelect={() => navigate(ScreenNames.Devices)}
           text="Devices"
         />
         <MenuOption
           customStyles={optStyle}
-          onSelect={() => navigate('Starred devices')}
+          onSelect={() => navigate(ScreenNames.StarredDevices)}
           text="Starred devices"
         />
         <MenuOption
           customStyles={{ optionText: { ...optStyle.optionText, marginBottom: 7 } }}
-          onSelect={() => navigate('Settings')}
+          onSelect={() => navigate(ScreenNames.Settings)}
           text="Settings"
         />
       </MenuOptions>

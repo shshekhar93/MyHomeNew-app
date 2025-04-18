@@ -46,7 +46,9 @@
     "eslint-plugin-react": "^7.37.5",
     "globals": "^16.0.0",
     "husky": "^9.1.7",
-    "lint-staged": "^15.5.1"
+    "lint-staged": "^15.5.1",
+    "typescript": "^5.3.3",
+    "@types/react": "~18.3.12"
   },
   "private": true,
   "husky": {
@@ -55,8 +57,10 @@
     }
   },
   "lint-staged": {
-    "*.js": "eslint --fix",
-    "*.jsx": "eslint --fix"
+    "*.ts": "eslint --fix",
+    "*.tsx": "eslint --fix",
+    "*.json": "eslint --fix",
+    "*": "bash -c tsc --no-emit --skip-lib-check"
   },
   "name": "homeapplyed-app",
   "version": "1.0.0"

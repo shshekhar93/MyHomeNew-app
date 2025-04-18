@@ -8,7 +8,7 @@ export function border(borderWidth, borderColor, borderRadius) {
 
 const onlyOfType = (type, val) => (typeof val === type ? val : undefined);
 
-export function padding(paddingTop, paddingRight, paddingBottom, paddingLeft) {
+export function padding(paddingTop: number, paddingRight?: number, paddingBottom?: number, paddingLeft?: number) {
   const pt = paddingTop;
   let pr = paddingRight;
   let pb = paddingBottom;
@@ -34,7 +34,7 @@ export function padding(paddingTop, paddingRight, paddingBottom, paddingLeft) {
   };
 }
 
-export function flex(grow, dir, justifyContent, alignItems) {
+export function flex(grow: number, dir?: string, justifyContent?: string, alignItems?: string) {
   const onlyString = onlyOfType.bind(null, 'string');
   return {
     flex: grow,
@@ -64,7 +64,7 @@ export const useStyles = () => {
     },
 
     DeviceDisplay: {
-      minHeight: '42px',
+      minHeight: 42,
       ...flex(0, 'row', 'space-between', 'center'),
       ...padding(8),
     },
