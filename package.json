@@ -35,7 +35,8 @@
     "react-native-tab-view": "^3.1.1",
     "react-native-web": "~0.19.13",
     "semver": "^7.3.4",
-    "toastify-react-native": "^7.2.0"
+    "toastify-react-native": "^7.2.0",
+    "@expo/metro-runtime": "~4.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.24.0",
