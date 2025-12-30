@@ -1,10 +1,35 @@
 /* eslint-disable */
 /**
- * This file has been borrowed from `react-native-settings-list` package to get around
- * compatibility issues introduced by latest version of react native.
+ * This file has been borrowed from `react-native-settings-list` package (under the MIT license)
+ * to get around compatibility issues introduced by latest version of react native.
  * 
  * The original code can be accessed at https://github.com/evetstech/react-native-settings-list
+ * 
+ * Original software license:
+
+The MIT License (MIT)
+
+Copyright (c) 2016 
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
  */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -72,7 +97,7 @@ export class SettingsList extends React.Component<SettingsListProps> {
 
   render(){
     return (
-      <ScrollView {...this.props.scrollViewProps} ref="_scrollView">
+      <ScrollView {...this.props.scrollViewProps}>
         {this._getGroups().map((group, index) => {
           return this._groupView(group, index);
         })}
@@ -294,108 +319,108 @@ export class SettingsListHeader extends React.Component {
   }
 }
 
+export type SettingsListItemProps = {
+  /**
+   * Title being displayed
+   */
+  title?: string,
+  titleStyle?: {[k: string]: any},
+  /**
+   * Icon displayed on the left of the settings item
+   */
+  icon?: React.ReactNode,
+
+  /**
+   * Item Box Style
+   */
+  itemBoxStyle?: {[k: string]: any},
+  /**
+   * Title Box Style
+   */
+  titleBoxStyle?: {[k: string]: any},
+  /**
+   * Right Side Style
+   */
+  rightSideStyle?: {[k: string]: any},
+  /**
+   * Editable Right Side Style
+   */
+  editableTextStyle?: {[k: string]: any},
+
+  /**
+   * Individual item width.  Can be globally set in the parent.  Will become deprecated
+   */
+  itemWidth?: number,
+  /**
+   * Allows for the item to become an auth item
+   */
+  isAuth?: boolean,
+  authPropsUser?: {[k: string]: any},
+  authPropsPW?: {[k: string]: any},
+  /**
+   * Individual background color. Can be globally set in the parent. Will become Deprecated
+   */
+  backgroundColor?: string,
+
+  /**
+   * Individual underlay click color.  Can be globally set in the parent.
+   */
+  underlayColor?: string,
+  /**
+   * Item on press callback.
+   */
+  onPress?: (...args: any[]) => any,
+  /**
+   * Item on long press callback.
+   */
+  onLongPress?: (...args: any[]) => any,
+  /**
+   * Enable or disable the > arrow at the end of the setting item.
+   */
+  hasNavArrow?: boolean,
+  arrowIcon?: React.ReactNode,
+
+  arrowStyle?: {[k: string]: any},
+  /**
+   * Enable or disable a Switch component
+   */
+  hasSwitch?: boolean,
+  /**
+   * Switch state
+   */
+  switchState?: boolean,
+  /**
+   * Switch props
+   */
+  switchProps?: {[k: string]: any},
+  /**
+   * On value change callback
+   */
+  switchOnValueChange?: (...args: any[]) => any,
+  /**
+   * Right side information on the setting item
+   */
+  titleInfo?: string,
+  titleInfoStyle?: {[k: string]: any},
+  /**
+   * If 'Bottom', info is placed beneath the title
+   */
+  titleInfoPosition?: string,
+  /**
+   * Right side content
+   */
+  rightSideContent?: React.ReactNode,
+  /* Gives opens to hide specific borders */
+  borderHide?: 'Top' | 'Bottom' | 'Both',
+
+  itemRef?: (...args: any[]) => any,
+};
+
 /**
  * Individual Items in the Settings List
  */
-export class SettingsListItem extends React.Component {
+export class SettingsListItem extends React.Component<SettingsListItemProps> {
   static displayName = 'SettingsListItem';
-
-  static propTypes = {
-    /**
-     * Title being displayed
-     */
-    title: PropTypes.string,
-    titleStyle: PropTypes.object,
-    /**
-     * Icon displayed on the left of the settings item
-     */
-    icon: PropTypes.node,
-
-    /**
-     * Item Box Style
-     */
-    itemBoxStyle : PropTypes.object,
-    /**
-     * Title Box Style
-     */
-    titleBoxStyle: PropTypes.object,
-    /**
-     * Right Side Style
-     */
-    rightSideStyle: PropTypes.object,
-    /**
-     * Editable Right Side Style
-     */
-    editableTextStyle: PropTypes.object,
-
-    /**
-     * Individual item width.  Can be globally set in the parent.  Will become deprecated
-     */
-    itemWidth: PropTypes.number,
-    /**
-     * Allows for the item to become an auth item
-     */
-    isAuth: PropTypes.bool,
-    authPropsUser: PropTypes.object,
-    authPropsPW: PropTypes.object,
-    /**
-     * Individual background color. Can be globally set in the parent. Will become Deprecated
-     */
-    backgroundColor: PropTypes.string,
-
-    /**
-     * Individual underlay click color.  Can be globally set in the parent.
-     */
-    underlayColor: PropTypes.string,
-    /**
-     * Item on press callback.
-     */
-    onPress: PropTypes.func,
-    /**
-     * Item on long press callback.
-     */
-    onLongPress: PropTypes.func,
-    /**
-     * Enable or disable the > arrow at the end of the setting item.
-     */
-    hasNavArrow: PropTypes.bool,
-    arrowIcon: PropTypes.node,
-
-    arrowStyle: PropTypes.object,
-    /**
-     * Enable or disable a Switch component
-     */
-    hasSwitch: PropTypes.bool,
-    /**
-     * Switch state
-     */
-    switchState: PropTypes.bool,
-    /**
-     * Switch props
-     */
-    switchProps: PropTypes.object,
-    /**
-     * On value change callback
-     */
-    switchOnValueChange: PropTypes.func,
-    /**
-     * Right side information on the setting item
-     */
-    titleInfo: PropTypes.string,
-    titleInfoStyle: PropTypes.object,
-    /**
-     * If 'Bottom', info is placed beneath the title
-     */
-    titleInfoPosition: PropTypes.string,
-    /**
-     * Right side content
-     */
-    rightSideContent: PropTypes.node,
-    /* Gives opens to hide specific borders */
-    borderHide: PropTypes.oneOf(['Top', 'Bottom', 'Both']),
-
-    itemRef: PropTypes.func,
-  };
 
   getDefaultProps(){
     return {
