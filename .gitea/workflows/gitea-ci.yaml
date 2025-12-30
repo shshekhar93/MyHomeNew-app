@@ -1,0 +1,21 @@
+name: Build & upload
+run-name: HomeApplyed App - web build
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: https://github.com/actions/checkout@v4
+      - name: Use Node.js
+        uses: https://github.com/actions/setup-node@v3
+        with:
+          node-version: '^24'
+      - run: npm ci
+      - run: npx expo export -p web
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4 # Use v4 for better performance and features
+        with:
+          name: homeapplyed-app
+          path: dist/ # Specify the file or directory to upload
+          if-no-files-found: error
