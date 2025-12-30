@@ -271,6 +271,7 @@ const styles = StyleSheet.create({
  * Optional Header for groups
  */
 export class SettingsListHeader extends React.Component {
+  static displayName = 'SettingsListHeader';
 
   static propTypes = {
     headerText: PropTypes.string,
@@ -297,6 +298,8 @@ export class SettingsListHeader extends React.Component {
  * Individual Items in the Settings List
  */
 export class SettingsListItem extends React.Component {
+  static displayName = 'SettingsListItem';
+
   static propTypes = {
     /**
      * Title being displayed
