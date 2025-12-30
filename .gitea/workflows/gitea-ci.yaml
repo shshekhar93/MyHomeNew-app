@@ -14,7 +14,7 @@ jobs:
       - run: npm ci
       - run: npx expo export -p web
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4 # Use v4 for better performance and features
+        uses: https://github.com/christopherHX/gitea-upload-artifact@v4
         with:
           name: homeapplyed-app
           path: dist/ # Specify the file or directory to upload
