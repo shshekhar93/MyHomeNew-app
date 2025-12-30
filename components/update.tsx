@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { Alert, ActivityIndicator, Linking } from 'react-native';
 import Constants from 'expo-constants';
 import { gt } from 'semver';
-import { Toast } from 'toastify-react-native';
 import BasePageView from './common/base-page-view';
 import TextDisplay from './common/text-display';
 import { getLatestAppManifest } from '../lib/api';
 import { getServerAddress } from '../lib/settings';
+import { Toast } from '../lib/toast';
 
 function AppUpdate({ isUpdating, setUpdating }) {
   const [hasUpdate, setHasUpdate] = useState(false);
@@ -26,7 +26,6 @@ function AppUpdate({ isUpdating, setUpdating }) {
         }
       }
       catch {
-        // console.error(e.stack);
         Toast.error('Checking for updates failed.');
       }
     })();
@@ -72,7 +71,6 @@ function AppUpdate({ isUpdating, setUpdating }) {
         return Linking.openURL(`${server}${downloadUrl}`);
       })
       .catch((/* err */) => {
-        // console.error('Could not download update', err.message);
         Toast.error('Download update failed..');
       })
       .finally(() => {

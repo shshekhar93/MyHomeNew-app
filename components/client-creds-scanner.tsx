@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { View, Platform } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
-import { Toast } from 'toastify-react-native';
 import TextDisplay from './common/text-display';
 import { setServerAddress, setClientId, setClientSecret } from '../lib/settings';
+import { Toast } from '../lib/toast';
 
 export default function ClientCredsScanner() {
   const [err, setErr] = useState(null);

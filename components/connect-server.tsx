@@ -1,6 +1,5 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { Button, View } from 'react-native';
-import { Toast } from 'toastify-react-native';
 import BasePageView from './common/base-page-view';
 import TextDisplay from './common/text-display';
 import ThemedTextInput from './common/text-input';
@@ -8,6 +7,7 @@ import { ThemeContext } from '../lib/utils';
 import * as Settings from '../lib/settings';
 import { DEFAULT_SERVER } from '../lib/constants';
 import { ScreenNames } from '../lib/navigation';
+import { Toast } from '../lib/toast';
 
 export default function ConnectServer({ navigation }) {
   const theme = useContext(ThemeContext);
